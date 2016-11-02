@@ -37,7 +37,9 @@ class Signup extends Component {
 
   submitSignupForm(event) {
     event.preventDefault();
-    Request.postSignup(this.state.inputs, (res) => {
+    let toSend = this.state.inputs;
+    toSend.emailAddress = toSend.emailAddress.toLowerCase();
+    Request.postSignup(toSend, (res) => {
       if (res.status === 201) {
         // eslint-disable-next-line no-undef
         localStorage.setItem('piddleToken', res.body.data.token);

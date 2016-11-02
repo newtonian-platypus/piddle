@@ -7,8 +7,8 @@ class Login extends Component {
     super(props);
     this.state = {
       inputs: {
-        emailAddress: null,
-        password: null,
+        emailAddress: '',
+        password: '',
       },
       error: '',
     };
@@ -32,7 +32,7 @@ class Login extends Component {
 
   submitLoginForm(event) {
     event.preventDefault();
-    Request.postLogin(this.state.inputs, (res) => {
+    Request.postLogin({emailAddress: this.state.inputs.emailAddress.toLowerCase(), password: this.state.inputs.password}, (res) => {
       if (res.status === 201) {
         // eslint-disable-next-line no-undef
         localStorage.setItem('piddleToken', res.body.data.token);
