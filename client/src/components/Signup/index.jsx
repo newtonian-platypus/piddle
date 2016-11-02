@@ -57,46 +57,58 @@ class Signup extends Component {
           Welcome to the signup page
         </p>
         <form id="signupForm">
-          <label htmlFor="emailAddress">Email</label>
-          <input
-            type="text"
-            className="loginInput"
-            id="emailAddress"
-            name="emailAddress"
-            onChange={event => this.handleInputChange(event)}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            className="loginInput"
-            id="password"
-            name="password"
-            onChange={event => this.handleInputChange(event)}
-          />
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            className="loginInput"
-            id="name"
-            name="name"
-            onChange={event => this.handleInputChange(event)}
-          />
-          <label htmlFor="password">square Id</label>
-          <input
-            type="text"
-            className="loginInput"
-            id="squareId"
-            name="squareId"
-            onChange={event => this.handleInputChange(event)}
-          />
-          <label htmlFor="password">paypal Id</label>
-          <input
-            type="text"
-            className="loginInput"
-            id="paypalId"
-            name="paypalId"
-            onChange={event => this.handleInputChange(event)}
-          />
+          <table>
+            <tr>
+              <td><label htmlFor="emailAddress">Email</label></td>
+              <td><input
+                type="text"
+                className="loginInput"
+                id="emailAddress"
+                name="emailAddress"
+                onChange={event => this.handleInputChange(event)}
+              /></td>
+            </tr>
+            <tr>
+              <td><label htmlFor="password">Password</label></td>
+              <td><input
+                type="password"
+                className="loginInput"
+                id="password"
+                name="password"
+                onChange={event => this.handleInputChange(event)}
+              /></td>
+            </tr>
+            <tr>
+              <td><label htmlFor="name">Name</label></td>
+              <td><input
+                type="text"
+                className="loginInput"
+                id="name"
+                name="name"
+                onChange={event => this.handleInputChange(event)}
+              /></td>
+            </tr>
+            <tr>
+              <td><label htmlFor="squareId">Square ID</label></td>
+              <td><input
+                type="text"
+                className="loginInput"
+                id="squareId"
+                name="squareId"
+                onChange={event => this.handleInputChange(event)}
+              /></td>
+            </tr>
+            <tr>
+              <td><label htmlFor="paypalId">PayPal ID</label></td>
+              <td><input
+                type="text"
+                className="loginInput"
+                id="paypalId"
+                name="paypalId"
+                onChange={event => this.handleInputChange(event)}
+              /></td>
+            </tr>
+          </table>
           <input
             type="submit"
             className="submitSignup"
