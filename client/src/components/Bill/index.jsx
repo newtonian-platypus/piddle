@@ -8,7 +8,7 @@ import BillItemList from './../BillItemList';
 import DescriptionField from './../DescriptionField';
 import TaxField from './../TaxField';
 import TipField from './../TipField';
-
+ 
 /**
  * @class Bill
  */
@@ -52,8 +52,9 @@ class Bill extends React.Component {
     this.interactionTypes = {
       new: Symbol.for('new'),
       edit: Symbol.for('edit'),
-      claim: Symbol.for('claim'),
+      claim: Symbol.for('claim')
     };
+
   }
 
   /**
@@ -68,6 +69,7 @@ class Bill extends React.Component {
     const stateObj = {
       curDebtorDebt: 0,
       description: '',
+      inputType: null,
       interactionType: this.interactionTypes.new,
       items: [
         { description: '', price: 0 },
@@ -164,6 +166,18 @@ class Bill extends React.Component {
         }
       });
     }
+  }
+
+  enterManually(event) {
+    event.preventDefault();
+
+    this.setState({ inputType : 'manual'});
+  }
+
+  takePhoto(event) {
+    event.preventDefault();
+
+    this.setState({ inputType: 'photo'});
   }
 
   /**
@@ -599,6 +613,38 @@ class Bill extends React.Component {
                 Claim the items that belong to you!
               </p>
             }
+          
+            {(this.state.interactionType === Symbol.for('new')) &&
+              <div className="text-center">
+                <Button
+                  className="btn-primary"
+                  id="take-photo-btn"
+                  bsSize="lg"
+                  type="submit"
+                  value="Take Photo"
+                  onClick={this.takePhoto.bind(this)}
+                >Take Photo
+                </Button>
+        
+                <Button
+                  className="btn-primary"
+                  id="manual-btn"
+                  bsSize="lg"
+                  type="submit"
+                  value="Manual"
+                  onClick={this.enterManually.bind(this)}
+                >Manual
+                </Button>
+              </div>
+            }
+
+            {(this.state.inputType === 'manual') &&
+              <p className="Enter-items-below">
+                Enter your items in the form below.
+              </p>
+            }
+
+            
             <Form
               inline
               id="createBillForm"

@@ -42,7 +42,7 @@ const BillItem = (props) => {
             className="description"
             name={`billItem-${props.index}-description`}
             onChange={fieldChange}
-            placeholder="Item"
+            placeholder="Add Item"
             type="text"
             value={props.description}
             disabled={!!props.debtorId}
