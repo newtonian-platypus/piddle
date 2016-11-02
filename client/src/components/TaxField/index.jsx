@@ -24,7 +24,7 @@ const TaxField = (props) => {
             <FormControl
               type="number"
               name="tax"
-              placeholder="Tax"
+              placeholder="Tax Percentage"
               value={props.taxValue}
               onChange={event => (
                 props.changeTaxValue(Number.parseFloat(event.target.value))

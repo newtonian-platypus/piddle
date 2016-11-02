@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router';
 import Request from '../../utils/requestHandler';
+import './Login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -50,29 +51,27 @@ class Login extends Component {
           Welcome to the login page
         </p>
         <form id="loginForm">
-          <label htmlFor="emailAddress">email</label>
+          <label htmlFor="emailAddress">Email</label>
           <input
             type="text"
-            className="loginForm"
             id="emailAddress"
             name="emailAddress"
             onChange={event => this.handleInputChange(event)}
           />
-          <label htmlFor="password">password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
-            className="loginForm"
             id="password"
             name="password"
             onChange={event => this.handleInputChange(event)}
           />
-          <input
-            type="submit"
-            className="submitLogin"
+          <p><button
+            bsStyle="primary"
+            bsSize="large"
             id="submitLogin"
-            value="Login"
-            onClick={event => this.submitLoginForm(event)}
-          />
+            onClick={event => this.submitLoginForm(event)}>
+            Login
+          </button></p>
         </form>
         <div className="loginError">{this.state.error}</div>
         <span>Need an account? </span>
