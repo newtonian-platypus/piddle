@@ -2,3 +2,16 @@ label {
   margin: 0 0.7em 0 0.7em;
 }
 
+input {
+  margin-top: 10px;
+}
+
+#loginForm {
+  border: none;
+  width: 500px;
+  margin: 0 auto;
+}
+
+td {
+  height: 40px;
+}

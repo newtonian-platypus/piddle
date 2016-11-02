@@ -51,20 +51,26 @@ class Login extends Component {
           Welcome to the login page
         </p>
         <form id="loginForm">
-          <label htmlFor="emailAddress">Email</label>
-          <input
-            type="text"
-            id="emailAddress"
-            name="emailAddress"
-            onChange={event => this.handleInputChange(event)}
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            onChange={event => this.handleInputChange(event)}
-          />
+          <table>
+            <tr>
+              <td><label htmlFor="emailAddress">Email</label></td>
+              <td><input
+                  type="text"
+                  id="emailAddress"
+                  name="emailAddress"
+                  onChange={event => this.handleInputChange(event)}
+                /></td>
+            </tr>
+            <tr>
+              <td><label htmlFor="password">Password</label></td>
+              <td><input
+                type="password"
+                id="password"
+                name="password"
+                onChange={event => this.handleInputChange(event)}
+              /></td>
+            </tr>
+          </table>
           <p><button
             bsStyle="primary"
             bsSize="large"
