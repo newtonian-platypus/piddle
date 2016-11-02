@@ -40,7 +40,11 @@ class Signup extends Component {
     event.preventDefault();
     let toSend = this.state.inputs;
     toSend.emailAddress = toSend.emailAddress.toLowerCase();
+
+    // sanitize phone number
     toSend.phone = toSend.phone.replace(/[^\d]/g,'');
+    toSend.phone = toSend.phone.substring(toSend.phone.length - 10);
+    console.log(toSend.phone);
     Request.postSignup(toSend, (res) => {
       if (res.status === 201) {
         // eslint-disable-next-line no-undef
