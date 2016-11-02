@@ -588,6 +588,12 @@ class Bill extends React.Component {
   render() {
     return (
       <div className="Bill">
+
+        <form action="http://localhost:3000/api/image" method="POST" encType="multipart/form-data">
+        <input type="file" accept="image/*" capture="camera" name="userPhoto" />
+        <input type="submit" value="Upload Image" name="submit" />
+        </form>
+
         {this.state.error &&
           <p>{this.state.error.message}</p>
         }

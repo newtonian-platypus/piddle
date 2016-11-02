@@ -1,9 +1,12 @@
 const express = require('express');
 const apiHandler = require('../handlers/apiHandler');
 const authHandler = require('../handlers/authHandler');
+const imageHandler = require('../handlers/imageHandler');
 
 const router = express.Router(); // eslint-disable-line
 
+
+router.post('/image', imageHandler.processImage);
 
 /**
  * @api {get} /api/bill/:id Retrieve a bill
