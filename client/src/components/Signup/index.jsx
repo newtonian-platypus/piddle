@@ -13,6 +13,7 @@ class Signup extends Component {
         name: null,
         squareId: null,
         paypalId: null,
+        phone: null,
       },
       error: '',
     };
@@ -105,6 +106,16 @@ class Signup extends Component {
                 className="loginInput"
                 id="paypalId"
                 name="paypalId"
+                onChange={event => this.handleInputChange(event)}
+              /></td>
+            </tr>
+            <tr>
+              <td><label htmlFor="phone">Phone Number</label></td>
+              <td><input
+                type="text"
+                className="loginInput"
+                id="phone"
+                name="phone"
                 onChange={event => this.handleInputChange(event)}
               /></td>
             </tr>

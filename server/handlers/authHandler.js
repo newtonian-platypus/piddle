@@ -31,6 +31,7 @@ const generateJWT = (userInstance) => {
     name: userInstance.name,
     squareId: userInstance.squareId,
     paypalId: userInstance.paypalId,
+    phone: userInstance.phone,
   };
   return jwt.encode(payload, config.jwt.secret, 'HS512');
 };

@@ -74,6 +74,9 @@ const User = sequelize.define('user', {
   paypalId: {
     type: Sequelize.STRING,
   },
+  phone: {
+    type: Sequelize.STRING
+  }
 },
   {
     instanceMethods: {
