@@ -303,6 +303,39 @@ describe('API Interactions', () => {
           });
       });
     });
+
+    describe('Deleting bills', () => {
+      before(done => specHelpers.emptyRecords(done));
+      before(done => specHelpers.createSampleUser(sampleUser, done));
+      before(done => specHelpers.createSampleUser(otherUser, done));
+      before(done => specHelpers.setSampleUserToken(sampleUser, done));
+      before(done => specHelpers.setSampleUserToken(otherUser, done));
+      before(done => specHelpers.createSampleBill(sampleBill, done));
+
+      it('should not be able to delete a bill unless the user is the payer', (done) => {
+        request(app)
+          .delete(`/api/bill/${sampleBill.generatedData.shortId}`)
+          .set('authorization', `JWT ${otherUser.generatedData.token}`) // otherUser is NOT bill owner
+          .send()
+          .end((err, response) => {
+            expect(err).to.not.exist;
+            expect(response.status).to.equal(401);
+            done();
+          });
+      });
+
+      it('should be able to delete the bill', (done) => {
+        request(app)
+          .delete(`/api/bill/${sampleBill.generatedData.shortId}`)
+          .set('authorization', `JWT ${sampleUser.generatedData.token}`) // sampleUser is bill owner
+          .send()
+          .end((err, response) => {
+            expect(err).to.not.exist;
+            expect(response.status).to.equal(200);
+            done();
+          });
+      });
+    });
   });
 
   describe('Items', () => {
@@ -496,6 +529,6 @@ describe('API Interactions', () => {
            done();
          });
       });
-  });
+    });
 });
 
