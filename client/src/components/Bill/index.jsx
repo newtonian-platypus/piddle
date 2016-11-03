@@ -751,7 +751,6 @@ class Bill extends React.Component {
                 </div>
               }
 
-
               {(this.state.interactionType === Symbol.for('edit')) &&
                 <Button
                   type="submit"
