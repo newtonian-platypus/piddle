@@ -628,8 +628,8 @@ class Bill extends React.Component {
         body: this.state.file
       }).then(result => result.json())
       .then(data => {
-        this.setState({items: data.items, 
-                       inputType: null, 
+        this.setState({items: data.items,
+                       inputType: null,
                        tax: data.tax,
                        imagePreviewUrl: null
                      });
@@ -713,6 +713,7 @@ class Bill extends React.Component {
                 </div>
               </div>
             }
+
             <Form
               inline
               id="createBillForm"
