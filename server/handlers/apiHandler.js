@@ -33,27 +33,6 @@ const saveBill = (request, response) => {
     });
 };
 
-const destroyBill = (request, response) => {
-  const bill = request.body;
-  billController.deleteBill(bill)
-    .then(() => {
-      response.status(200);
-      response.json({
-        data: {
-          message: 'Bill Deleted',
-        },
-      });
-    })
-    .catch((error) => {
-      response.status(400);
-      response.json({
-        error: {
-          message: error.message,
-        },
-      });
-    });
-};
-
 
 /**
  * Retrieve a bill. The logic for GET /api/bill/:shortId.
@@ -100,6 +79,36 @@ const getUserBills = (request, response) => {
         message: 'There was an error retrieving the user\'s bills',
       },
     }));
+};
+
+const destroyBill = (request, response) => {
+  const shortId = request.params.shortId;
+  const payerId = request.user.id;
+  billController.retrieveBill(shortId)
+  .then((bill) => {
+    if (bill.payerId !== payerId) {
+      response.status(401);
+      response.json({
+        error: {
+          message: 'not authorized',
+        },
+      });
+    } else {
+      billController.deleteBill(shortId)
+        .then(() => {
+          response.status(200);
+          response.end();
+        })
+        .catch((error) => {
+          response.status(400);
+          response.json({
+            error: {
+              message: error.message,
+            },
+          });
+        });
+    }
+  });
 };
 
 /**
