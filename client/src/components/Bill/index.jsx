@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { round } from 'mathjs';
-import { FormGroup, FormControl, InputGroup, Form, Well, Button } from 'react-bootstrap';
+import { FormGroup, InputGroup, Form, Well, Button } from 'react-bootstrap';
 import ClipboardButton from 'react-clipboard.js';
 import './Bill.css';
 import BillItemList from './../BillItemList';
@@ -247,9 +247,14 @@ class Bill extends React.Component {
       .then(checkStatus)
       .then(response => response.json())
       .then(({ data }) => {
+        console.log('returns data', data);
         /**
          * @todo this changes the URL but doesn't re-render the Bill in edit interactionMode
          */
+        this.setState({
+          shortId: data.shortId,
+          interactionType: this.interactionTypes.edit
+        });
         this.props.router.push(`/bill/${data.shortId}`);
       })
       .catch((error) => {
