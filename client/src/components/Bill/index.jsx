@@ -52,6 +52,7 @@ class Bill extends React.Component {
     /**
      * @todo Move this into library module?
      */
+
     this.interactionTypes = {
       new: Symbol.for('new'),
       edit: Symbol.for('edit'),
@@ -77,6 +78,19 @@ class Bill extends React.Component {
       items: [
         { description: '', price: 0 },
       ],
+      // items: [
+      //   { price: 47.00, description: 'Ferrari Carano' },
+      //   { price: 7.50, description: 'Insa late Cesare' },
+      //   { price: 9.50, description: 'Caprese with prosciutto' },
+      //   { price: 25.95, description: 'FISH SPEC' },
+      //   { price: 15.95, description: 'Spinach Ricotta Ravioli' },
+      //   { price: 19.95, description: 'Seafood Pasta' },
+      //   { price: 29.95, description: 'Ossobucco' },
+      //   { price: 155.80, description: 'Sub Total' },
+      //   { price: 14.02, description: 'Tax' },
+      //   { price: 169.82, description: 'Total' },
+      //   { price: 169.82, description: 'Balance Due' }
+      // ],
       tax: 0,
       tip: {
         value: 0,
@@ -675,7 +689,7 @@ class Bill extends React.Component {
             }
 
             {(this.state.inputType === 'manual') &&
-              <p className="Enter-items-below">
+              <p className="Enter-items-below text-center">
                 Enter your items in the form below.
               </p>
             }
