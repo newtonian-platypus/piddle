@@ -634,10 +634,7 @@ class Bill extends React.Component {
   render() {
     return (
       <div className="Bill">
-<<<<<<< db4817909ae668ec626d8ccef987c0eef5870722
-=======
 
->>>>>>> Change state params for uploading photo and manual mode.
         {this.state.error &&
           <p>{this.state.error.message}</p>
         }
@@ -754,12 +751,6 @@ class Bill extends React.Component {
                 </div>
               }
 
-
-<<<<<<< db4817909ae668ec626d8ccef987c0eef5870722
-
-=======
-              
->>>>>>> Change state params for uploading photo and manual mode.
               {(this.state.interactionType === Symbol.for('edit')) &&
                 <Button
                   type="submit"
