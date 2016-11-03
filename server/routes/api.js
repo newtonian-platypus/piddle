@@ -251,7 +251,7 @@ router.post('/bill', authHandler.ensureAuthenticated, apiHandler.saveBill);
  * }
  */
 router.put('/bill/:shortId', authHandler.ensureAuthenticated, apiHandler.updateBill);
-
+router.delete('/bill/:shortId', authHandler.ensureAuthenticated, apiHandler.destroyBill);
 /**
  * @api {put} /api/item/:id Update a bill item
  * @apiName UpdateItem
