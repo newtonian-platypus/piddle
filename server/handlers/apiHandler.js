@@ -93,11 +93,6 @@ const updateBill = (request, response) => {
   delete updateParams.payerId; // don't allow payerId to update
   // delete updateParams.items; // don't allow changes to Items
 
-  // UPDATE THE ITEMS HERE
-  updateParams.items.forEach(item => {
-    itemController.updateItem(item.id, item);
-  });
-
   billController.retrieveBillWithPaidItems(shortId)
   .then((billRecord) => {
     if (!billRecord) {
@@ -121,6 +116,14 @@ const updateBill = (request, response) => {
         },
       });
     }
+
+    // Updating edited items
+    if (updateParams.items) {
+      updateParams.items.forEach(item => {
+        itemController.updateItem(item.id, item);
+      });
+    }
+
     return billController.updateBill(shortId, updateParams)
       .then(updatedBillRecord =>
         response.status(200).json({
