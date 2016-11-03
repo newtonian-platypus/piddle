@@ -85,8 +85,11 @@ class Bill extends React.Component {
         percent: null,
         usePercent: false,
       },
+<<<<<<< 68e0905780e1f317e8cb89e2c83217c27df3abee
       subtotal: 0,
       total: 0,
+=======
+>>>>>>> (feat) return item data from image
       file: null,
       imagePreviewUrl: null
     };
@@ -660,6 +663,33 @@ class Bill extends React.Component {
     reader.readAsDataURL(file)
   }
 
+  _handleImageChange(e) {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+      // console.log(this.state.imagePreviewUrl);
+      // console.log('file', file);
+
+      fetch(`${this.serverUrl}/api/image`, {
+        headers: {
+          'Accept': 'application/text'
+        },
+        method: 'POST',
+        body: this.state.file
+      }).then(result => result.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+    }
+    reader.readAsDataURL(file)
+  }
+
   /**
    * Render the component
    * @method
@@ -694,7 +724,6 @@ class Bill extends React.Component {
                 Claim the items that belong to you!
               </p>
             }
-
 
             {(this.state.interactionType === Symbol.for('new')) &&
               <div className="text-center">
@@ -737,7 +766,6 @@ class Bill extends React.Component {
               </div>
             }
 
-
             <Form
               inline
               id="createBillForm"
@@ -779,7 +807,7 @@ class Bill extends React.Component {
               }
 
               <p>The total is: ${this.state.total}</p>
-              
+
               {(this.state.interactionType === Symbol.for('new')) &&
                 <div className="text-center">
                   <Button

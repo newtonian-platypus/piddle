@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+const request = require('request');
 const vision = require('@google-cloud/vision')({
   projectId: 'API Project',
   keyFilename: './../API Project-8b8a37273156.json'
@@ -63,7 +66,7 @@ var isTotalWord = function(str) {
       str.includes("subtotal") ||
       str.includes("Due") ||
       str.includes("DUE") ||
-      str.includes("due") 
+      str.includes("due")
      ) {
     return true;
   } else {
@@ -94,7 +97,7 @@ var isUnhelpfulMoneyWord = function(str) {
       str.includes("GUESTS") ||
       str.includes("Guests") ||
       str.includes(":") ||
-      str.includes("/") 
+      str.includes("/")
      ) {
     return true;
   } else {
