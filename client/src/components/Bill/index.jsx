@@ -196,7 +196,7 @@ class Bill extends React.Component {
   takePhoto(event) {
     event.preventDefault();
 
-    this.setState({ inputType: 'photo'});
+    this.setState({ inputType: 'photo', file: null});
   }
 
   /**
@@ -600,6 +600,7 @@ class Bill extends React.Component {
 
   _handleImageChange(e) {
     e.preventDefault();
+    this.setState({tax: 0});
 
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -619,7 +620,13 @@ class Bill extends React.Component {
         method: 'POST',
         body: this.state.file
       }).then(result => result.json())
-      .then(data => console.log(data))
+      .then(data => {
+        this.setState({items: data.items, 
+                       inputType: null, 
+                       tax: data.tax,
+                       imagePreviewUrl: null
+                     });
+      })
       .catch(err => console.log(err));
     }
     reader.readAsDataURL(file)
