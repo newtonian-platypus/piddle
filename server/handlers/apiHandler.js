@@ -33,6 +33,28 @@ const saveBill = (request, response) => {
     });
 };
 
+const destroyBill = (request, response) => {
+  const bill = request.body;
+  billController.deleteBill(bill)
+    .then(() => {
+      response.status(200);
+      response.json({
+        data: {
+          message: 'Bill Deleted',
+        },
+      });
+    })
+    .catch((error) => {
+      response.status(400);
+      response.json({
+        error: {
+          message: error.message,
+        },
+      });
+    });
+};
+
+
 /**
  * Retrieve a bill. The logic for GET /api/bill/:shortId.
  * @param {readableStream} request Request stream. See API documentation for parameters.
@@ -236,4 +258,5 @@ module.exports = {
   updateBill,
   updateItem,
   changeProfile,
+  destroyBill,
 };
