@@ -589,11 +589,6 @@ class Bill extends React.Component {
     return (
       <div className="Bill">
 
-        <form action="http://localhost:3000/api/image" method="POST" encType="multipart/form-data">
-        <input type="file" accept="image/*" capture="camera" name="userPhoto" />
-        <input type="submit" value="Upload Image" name="submit" />
-        </form>
-
         {this.state.error &&
           <p>{this.state.error.message}</p>
         }
@@ -650,7 +645,17 @@ class Bill extends React.Component {
               </p>
             }
 
+
+            {(this.state.inputType === 'photo') &&
+              <div className="uploadBill">
+                <form action="http://localhost:3000/api/image" method="POST" encType="multipart/form-data">
+                <input type="file" accept="image/*" capture="camera" name="userPhoto" />
+                <input type="submit" value="Upload Image" name="submit" />
+                </form>
+              </div>
+            }
             
+
             <Form
               inline
               id="createBillForm"
@@ -700,6 +705,9 @@ class Bill extends React.Component {
                   </Button>
                 </div>
               }
+
+
+              
               {(this.state.interactionType === Symbol.for('edit')) &&
                 <Button
                   type="submit"

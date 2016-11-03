@@ -37,6 +37,7 @@ class Signup extends Component {
   }
 
   submitSignupForm(event) {
+    console.log('in submitsigntupform');
     event.preventDefault();
     let toSend = this.state.inputs;
     toSend.emailAddress = toSend.emailAddress.toLowerCase();
