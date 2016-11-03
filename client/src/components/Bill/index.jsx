@@ -680,12 +680,14 @@ class Bill extends React.Component {
             {(this.state.inputType === 'photo') &&
               <div className="uploadBill">
                 <form action="http://localhost:3000/api/image" method="POST" encType="multipart/form-data">
-                <input type="file" accept="image/*" capture="camera" name="userPhoto" />
+                <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
                 <input type="submit" value="Upload Image" name="submit" />
                 </form>
+                <div>
+                {this.state.imagePreviewUrl ? <img src={this.state.imagePreviewUrl} /> : null}
+                </div>
               </div>
             }
-
             <Form
               inline
               id="createBillForm"
