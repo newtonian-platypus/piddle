@@ -49,13 +49,14 @@ live-server
 
 ### Roadmap
 
-View the [project backlog](https://github.com/manatee-matinee/piddle/issues).
+View the [project backlog](https://github.com/newtonian-platypus/piddle/issues).
 
-## Team
+## Team Newtonian-Platypus
 
-  - __Product Owner__: [Cash Weaver](https://github.com/cashweaver)
-  - __Scrum Master__: [Jason Thomas](https://github.com/jftcode)
-  - __Development Team Members__: [Luis Villeda](https://github.com/luisevilleda), [David Walsh](https://github.com/rhinodavid)
+-[Chase Starr](https://github.com/chasestarr)
+-[Meredith Nachman](https://github.com/mwnachman)
+-[Hans Trautlein](https://github.com/trautlein)
+-[Will Simmons](https://github.com/willsimmons)
 
 ## Contributing
 
