@@ -2,7 +2,8 @@ import jwtDecode from 'jwt-decode';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { round } from 'mathjs';
-import { Form, Well, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, InputGroup, Form, Well, Button } from 'react-bootstrap';
+import ClipboardButton from 'react-clipboard.js';
 import './Bill.css';
 import BillItemList from './../BillItemList';
 import DescriptionField from './../DescriptionField';
@@ -463,9 +464,10 @@ class Bill extends React.Component {
       .then(checkStatus)
       .then(response => response.json())
       .then(({ data }) => {
-        /**
-         * @todo this changes the URL but doesn't re-render the Bill in edit interactionMode
-         */
+        this.setState({
+          shortId: data.shortId,
+          interactionType: this.interactionTypes.edit
+        });
         this.props.router.push(`/bill/${data.shortId}`);
       })
       .catch((error) => {
@@ -756,13 +758,35 @@ class Bill extends React.Component {
                 </div>
               }
 
+              {(this.state.shortId) &&
+                <div>
+                  <FormGroup>
+                    <InputGroup>
+                      <InputGroup.Addon>Link:</InputGroup.Addon>
+                      <InputGroup.Addon>{`${this.serverUrl}/bill/${this.state.shortId}`}</InputGroup.Addon>
+                      <InputGroup.Button>
+                        <ClipboardButton
+                          className="btn btn-primary shortLink"
+                          data-clipboard-text={`${this.serverUrl}/bill/${this.state.shortId}`}
+                        >
+                          <span className="glyphicon glyphicon-copy"></span>
+                        </ClipboardButton>
+                      </InputGroup.Button>
+                    </InputGroup>
+                  </FormGroup>
+                </div>
+              }
+
               {(this.state.interactionType === Symbol.for('edit')) &&
                 <Button
+                  className="btn-primary"
+                  id="create-new-bill-btn"
+                  bsSize="lg"
                   type="submit"
                   value="Save Changes"
                   onClick={this.updateBill}
-                  disabled="true"
-                />
+                >Save Changes
+                </Button>
               }
               {(this.state.interactionType === Symbol.for('claim')) &&
                 <div>
