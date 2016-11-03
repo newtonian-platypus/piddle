@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-const request = require('request');
 const vision = require('@google-cloud/vision')({
   projectId: 'API Project',
   keyFilename: './../API Project-8b8a37273156.json'

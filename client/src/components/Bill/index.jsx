@@ -706,7 +706,6 @@ class Bill extends React.Component {
                 </div>
               </div>
             }
-
             <Form
               inline
               id="createBillForm"
