@@ -85,11 +85,8 @@ class Bill extends React.Component {
         percent: null,
         usePercent: false,
       },
-<<<<<<< 68e0905780e1f317e8cb89e2c83217c27df3abee
       subtotal: 0,
       total: 0,
-=======
->>>>>>> (feat) return item data from image
       file: null,
       imagePreviewUrl: null
     };
@@ -765,7 +762,6 @@ class Bill extends React.Component {
                 </div>
               </div>
             }
-
             <Form
               inline
               id="createBillForm"
