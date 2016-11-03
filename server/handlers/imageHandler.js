@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+const request = require('request');
 const vision = require('@google-cloud/vision')({
   projectId: 'API Project',
   keyFilename: './../API Project-8b8a37273156.json'
@@ -20,7 +23,6 @@ const processImage = (req, res) => {
         }
       ]
     }
-
     vision.annotate(annotateImageReq).then(data => {
       var text = data[0];
       var apiResponse = data[1];

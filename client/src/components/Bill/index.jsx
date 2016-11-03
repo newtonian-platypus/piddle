@@ -641,7 +641,6 @@ class Bill extends React.Component {
   render() {
     return (
       <div className="Bill">
-
         {this.state.error &&
           <p>{this.state.error.message}</p>
         }
