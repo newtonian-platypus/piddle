@@ -8,7 +8,6 @@ const path = require('path');
 const config = require('../config');
 const passport = require('./passportConfig');
 const bodyParser = require('body-parser');
-const formidable = require('express-formidable');
 
 const app = express();
 
@@ -21,7 +20,6 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 app.use(bodyParser.json());
-// app.use(formidable());
 app.use(passport.initialize());
 
 app.use('/', express.static(path.join(__dirname, '../client/build')));

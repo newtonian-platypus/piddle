@@ -8,7 +8,7 @@ import BillItemList from './../BillItemList';
 import DescriptionField from './../DescriptionField';
 import TaxField from './../TaxField';
 import TipField from './../TipField';
- 
+
 /**
  * @class Bill
  */
@@ -46,6 +46,9 @@ class Bill extends React.Component {
     this.changeTipValue = this.changeTipValue.bind(this);
     this.changeTipPercent = this.changeTipPercent.bind(this);
 
+    // OCR
+    this._handleImageChange = this._handleImageChange.bind(this);
+
     /**
      * @todo Move this into library module?
      */
@@ -80,6 +83,8 @@ class Bill extends React.Component {
         percent: null,
         usePercent: false,
       },
+      file: null,
+      imagePreviewUrl: null
     };
 
     if (!token) {
@@ -579,6 +584,33 @@ class Bill extends React.Component {
     this.updateTip();
   }
 
+  _handleImageChange(e) {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+      // console.log(this.state.imagePreviewUrl);
+      // console.log('file', file);
+
+      fetch(`${this.serverUrl}/api/image`, {
+        headers: {
+          'Accept': 'application/text'
+        },
+        method: 'POST',
+        body: this.state.file
+      }).then(result => result.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+    }
+    reader.readAsDataURL(file)
+  }
+
   /**
    * Render the component
    * @method
@@ -588,7 +620,6 @@ class Bill extends React.Component {
   render() {
     return (
       <div className="Bill">
-
         {this.state.error &&
           <p>{this.state.error.message}</p>
         }
@@ -614,7 +645,7 @@ class Bill extends React.Component {
                 Claim the items that belong to you!
               </p>
             }
-          
+
             {(this.state.interactionType === Symbol.for('new')) &&
               <div className="text-center">
                 <Button
@@ -626,7 +657,7 @@ class Bill extends React.Component {
                   onClick={this.takePhoto.bind(this)}
                 >Take Photo
                 </Button>
-        
+
                 <Button
                   className="btn-primary"
                   id="manual-btn"
@@ -654,7 +685,6 @@ class Bill extends React.Component {
                 </form>
               </div>
             }
-            
 
             <Form
               inline
@@ -707,7 +737,7 @@ class Bill extends React.Component {
               }
 
 
-              
+
               {(this.state.interactionType === Symbol.for('edit')) &&
                 <Button
                   type="submit"
