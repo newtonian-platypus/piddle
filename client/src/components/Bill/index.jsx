@@ -765,6 +765,8 @@ class Bill extends React.Component {
 
               {(this.state.shortId) &&
                 <div>
+                  <br />
+                  <h5>Copy this link to send to your friends</h5>
                   <FormGroup>
                     <InputGroup>
                       <InputGroup.Addon>Link:</InputGroup.Addon>
