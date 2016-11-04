@@ -92,12 +92,14 @@ var toTuples = function(arr) {
     if (isFloat(arr[i])) {
       tuple.price = arr[i];
       tuple.description = arr[i+1];
+      tuple.quantity = 1;
     } else {
       if (arr[i+1] === undefined) {
         arr[i+1] = 0;
       }
       tuple.price = arr[i+1];
       tuple.description = arr[i];
+      tuple.quantity = 1;
     }
     tuples.push(tuple);
   }
@@ -125,7 +127,12 @@ var toTuples = function(arr) {
   for (var i = 0; i < tuples.length; i++) {
     tuples[i]['price'] = Number(tuples[i]['price']) || 0;
     var str = String(tuples[i]['description']);
-    if (str[0].match(/[0-9]\d*/g)) {
+    if (str[0].match(/[0-9]\d*/g) && str[0].match(/[0-9]\d*/g)) {
+      var quantity = str.slice(0, 2);
+      tuples[i]['quantity'] = Number(quantity);
+      tuples[i]['description'] = tuples[i]['description'].slice(2);
+    }
+    else if (str[0].match(/[0-9]\d*/g)) {
       tuples[i]['quantity'] = Number(str[0]);
       tuples[i]['description'] = tuples[i]['description'].slice(2);
     }

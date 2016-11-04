@@ -20,6 +20,7 @@
 
 #create-new-bill-btn {
   margin-top: 1em;
+  margin-bottom: 5em;
 }
 
 .well-lg {
@@ -35,14 +36,20 @@
 }
 
 .Enter-items-below {
-  padding: 1em;
+  padding: 0.5em;
   font-size: 1.5em;
 }
 
 #take-photo-btn {
   margin-right: 2em;
+  margin-bottom: 1em;
+}
+
+#manual-btn {
+  margin-bottom: 1em;
 }
 
 .shortLink {
   margin-left: 2em;
 }
+

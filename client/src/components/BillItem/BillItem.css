@@ -1,3 +1,16 @@
 .BillItem {
   margin-bottom: 0.5em;
 }
+
+.quantity {
+  width: 9em;
+  padding-right: 1em;
+}
+
+.price {
+  width: 14em;
+}
+
+.description {
+  padding-right: 1em;
+}

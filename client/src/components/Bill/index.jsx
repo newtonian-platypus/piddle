@@ -77,27 +77,16 @@ class Bill extends React.Component {
       inputType: null,
       interactionType: this.interactionTypes.new,
       items: [
-        { description: '', price: 0 },
+        { description: '', price: 0, quantity: 1 },
       ],
-      // items: [
-      //   { price: 47.00, description: 'Ferrari Carano' },
-      //   { price: 7.50, description: 'Insa late Cesare' },
-      //   { price: 9.50, description: 'Caprese with prosciutto' },
-      //   { price: 25.95, description: 'FISH SPEC' },
-      //   { price: 15.95, description: 'Spinach Ricotta Ravioli' },
-      //   { price: 19.95, description: 'Seafood Pasta' },
-      //   { price: 29.95, description: 'Ossobucco' },
-      //   { price: 155.80, description: 'Sub Total' },
-      //   { price: 14.02, description: 'Tax' },
-      //   { price: 169.82, description: 'Total' },
-      //   { price: 169.82, description: 'Balance Due' }
-      // ],
       tax: 0,
       tip: {
         value: 0,
         percent: null,
         usePercent: false,
       },
+      subtotal: 0,
+      total: 0,
       file: null,
       imagePreviewUrl: null
     };
@@ -497,6 +486,8 @@ class Bill extends React.Component {
     this.setState({ items: previousItems });
 
     this.updateTip();
+    this.calculateSubtotal();
+    this.calculateTotal();
   }
 
   /**
@@ -510,6 +501,7 @@ class Bill extends React.Component {
     const newItem = {
       description: '',
       price: 0,
+      quantity: 1
     };
 
     this.setState({ items: [...this.state.items, newItem] });
@@ -564,6 +556,9 @@ class Bill extends React.Component {
     const tipState = this.state.tip;
     tipState.value = this.calculateTip();
     this.setState({ tip: tipState });
+
+    this.calculateSubtotal();
+    this.calculateTotal();
   }
 
   /**
@@ -587,6 +582,27 @@ class Bill extends React.Component {
     return tip;
   }
 
+  calculateSubtotal() {
+    let subtotal = 0;
+    let items = this.state.items;
+    for (var i = 0; i < items.length; i++) {
+      subtotal += items[i].price;
+    }
+    this.setState({subtotal: subtotal});
+    return subtotal;
+  }
+
+  calculateTotal() {
+    let total = 0;
+    let subtotal = this.calculateSubtotal();
+    let tax = this.state.tax;
+    let tip = this.state.tip.value;
+    total = subtotal + tax + tip;
+
+    this.setState({total: total})
+    return total;
+  }
+
   /**
    * Update state with new bill item field values.
    * @method
@@ -603,6 +619,7 @@ class Bill extends React.Component {
     this.setState({ items: previousItems });
 
     this.updateTip();
+    this.calculateTotal();
   }
 
   _handleImageChange(e) {
@@ -632,7 +649,11 @@ class Bill extends React.Component {
                        inputType: null,
                        tax: data.tax,
                        imagePreviewUrl: null
-                     });
+                      });
+
+        this.setState({total: this.calculateTotal(),
+                       subtotal: this.calculateSubtotal()
+                      });
       })
       .catch(err => console.log(err));
     }
@@ -674,6 +695,7 @@ class Bill extends React.Component {
               </p>
             }
 
+
             {(this.state.interactionType === Symbol.for('new')) &&
               <div className="text-center">
                 <Button
@@ -698,6 +720,7 @@ class Bill extends React.Component {
               </div>
             }
 
+
             {(this.state.inputType === 'manual') &&
               <p className="Enter-items-below text-center">
                 Enter your items in the form below.
@@ -713,6 +736,8 @@ class Bill extends React.Component {
                 </div>
               </div>
             }
+
+
             <Form
               inline
               id="createBillForm"
@@ -733,6 +758,9 @@ class Bill extends React.Component {
                   newBillItem={this.newBillItem}
                 />
               </Well>
+
+              <p>The subtotal is: ${this.state.subtotal}</p>
+
               <TaxField
                 changeTaxValue={this.changeTaxValue}
                 interactionType={this.state.interactionType}
@@ -749,6 +777,9 @@ class Bill extends React.Component {
                  * @todo Make into a component
                  */
               }
+
+              <p>The total is: ${this.state.total}</p>
+              
               {(this.state.interactionType === Symbol.for('new')) &&
                 <div className="text-center">
                   <Button

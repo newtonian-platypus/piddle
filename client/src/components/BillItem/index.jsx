@@ -50,16 +50,30 @@ const BillItem = (props) => {
     <div className="BillItem">
       {isEditable &&
         <div>
-          <FormControl
-            className="description"
-            name={`billItem-${props.index}-description`}
-            onChange={fieldChange}
-            placeholder="Add Item"
-            type="text"
-            value={props.description}
-            disabled={!!props.debtorId}
-          />
-          <FormGroup>
+          <FormGroup className="quantity">
+            <InputGroup>
+              <InputGroup.Addon>Qty</InputGroup.Addon>
+              <FormControl
+                name={`billItem-${props.index}-quantity`}
+                onChange={fieldChange}
+                placeholder='0'
+                type="number"
+                value={props.quantity}
+                disabled={!!props.debtorId}
+              />
+            </InputGroup>
+          </FormGroup>
+          <FormGroup className="description">
+            <FormControl
+              name={`billItem-${props.index}-description`}
+              onChange={fieldChange}
+              placeholder="Add Item"
+              type="text"
+              value={props.description}
+              disabled={!!props.debtorId}
+            />
+          </FormGroup>
+          <FormGroup className="price">
             <InputGroup>
               <InputGroup.Addon>$</InputGroup.Addon>
               <FormControl
