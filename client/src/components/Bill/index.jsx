@@ -36,6 +36,7 @@ class Bill extends React.Component {
     this.changeBillItem = this.changeBillItem.bind(this);
     this.newBillItem = this.newBillItem.bind(this);
     this.deleteBillItem = this.deleteBillItem.bind(this);
+    this.splitBillItem = this.splitBillItem.bind(this);
 
     // Tax
     this.changeTaxValue = this.stateSetter('tax');
@@ -523,6 +524,81 @@ class Bill extends React.Component {
     this.calculateTotal();
   }
 
+  splitBillItem(event, id, itemId) {
+    event.preventDefault();
+    const previousItems = this.state.items;
+    previousItems.splice(id, 1);
+
+    const jsonHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${this.state.token.raw}`,
+    };
+
+    // ref: https://github.com/github/fetch
+    const checkStatus = (response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      }
+
+      const error = new Error(response.statusText);
+      error.response = response;
+      throw error;
+    };
+
+    fetch(`${this.serverUrl}/api/item/split/${itemId}`, {
+      method: 'POST',
+      headers: jsonHeaders,
+    })
+      .then(checkStatus)
+      .then(() => {
+        // eslint-disable-next-line no-undef
+        const billId = this.props.params.id;
+        fetch(`${this.serverUrl}/api/bill/${billId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `JWT ${this.state.token.raw}`,
+          },
+        })
+        .then(checkStatus)
+        .then(response => response.json())
+        .then(({ data }) => {
+          const interactionType =
+            (data.payerId === this.state.token.decoded.id) ?
+            this.interactionTypes.edit : this.interactionTypes.claim;
+
+          return this.setState({
+            ...this.state,
+            ...data,
+            /**
+             * @todo edit/claim based on whether the current user owns the retreived bill
+             */
+            interactionType,
+            tip: {
+              value: data.tip,
+              percent: null,
+              usePercent: false,
+            },
+          });
+        })
+        .catch((error) => {
+          /**
+           * @todo handle this error appropriately
+           */
+          const userNotAuthorizedToViewBill = (error.response.status === 401);
+          if (userNotAuthorizedToViewBill) {
+            this.setState({ error });
+          }
+        });
+      })
+      .catch((error) => {
+        /**
+         * @todo handle this error appropriately
+         */
+        console.error(error);
+      });
+  }
+
   /**
    * Adds a new, empty, bill item to the Bill state.
    * @method
@@ -782,6 +858,7 @@ class Bill extends React.Component {
                 <BillItemList
                   items={this.state.items}
                   deleteBillItem={this.deleteBillItem}
+                  splitBillItem={this.splitBillItem}
                   claimBillItem={this.claimBillItem}
                   changeBillItem={this.changeBillItem}
                   interactionType={this.state.interactionType}

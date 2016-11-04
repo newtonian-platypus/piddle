@@ -237,6 +237,33 @@ const deleteItem = (request, response) => {
   itemController.deleteItem(request.params.id);
 };
 
+const splitItem = (request, response) => {
+  itemController.findItemByIdForUpdateReturn(request.params.id)
+    .then(itemInstance => {
+
+      // save item to temp var
+      let billId = itemInstance.dataValues.billId;
+      let oldItem = {
+        description: itemInstance.dataValues.description,
+        price: itemInstance.dataValues.price
+      };
+      console.log(oldItem, billId);
+
+      // delete item from db
+      itemController.deleteItem(itemInstance.dataValues.id);
+
+      // create 2 new items with half price and updated name
+      let newItem = {
+        description: `${oldItem.description} 1/2`,
+        price: `${(oldItem.price / 2).toFixed(2)}`,
+        paid: false
+      }
+
+      itemController.createItemsForBill(billId, [newItem, newItem]);
+      response.status(201).end();
+    });
+};
+
 /*
  * Update an item. The logic for PUT /api/item/:id.
  * @param {readableStream} request Request stream. See API documentation for parameters.
@@ -268,4 +295,5 @@ module.exports = {
   changeProfile,
   destroyBill,
   deleteItem,
+  splitItem,
 };

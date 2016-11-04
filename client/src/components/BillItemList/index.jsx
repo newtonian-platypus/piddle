@@ -26,6 +26,7 @@ const BillItemList = (props) => {
           index={i}
           {...item}
           deleteBillItem={props.deleteBillItem}
+          splitBillItem={props.splitBillItem}
           changeBillItem={props.changeBillItem}
           claimBillItem={props.claimBillItem}
           interactionType={props.interactionType}

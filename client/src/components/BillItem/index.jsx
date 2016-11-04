@@ -115,6 +115,7 @@ const BillItem = (props) => {
               <InputGroup.Button>
               <Button
                 bsStyle="info"
+                onClick={event => props.splitBillItem(event, props.index, props.id)}
               >
                 Split
               </Button>

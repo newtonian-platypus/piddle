@@ -312,6 +312,8 @@ router.delete('/bill/:shortId', authHandler.ensureAuthenticated, apiHandler.dest
 router.put('/item/:id', authHandler.ensureAuthenticated, apiHandler.updateItem);
 router.delete('/item/:id', authHandler.ensureAuthenticated, apiHandler.deleteItem);
 
+router.post('/item/split/:id', authHandler.ensureAuthenticated, apiHandler.splitItem);
+
 
 router.put('/user/id', apiHandler.changeProfile);
 
