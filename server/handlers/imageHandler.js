@@ -2,7 +2,7 @@ const vision = require('@google-cloud/vision')({
   projectId: 'API Project',
   keyFilename: './../API Project-8b8a37273156.json'
 });
-
+ 
 const processImage = (req, res) => {
   let chunks = [];
   req.on('data', (chunk) => { chunks.push(chunk) });
@@ -105,7 +105,7 @@ var isUnhelpfulMoneyWord = function(str) {
 var toTuples = function(arr) {
   var results = {};
   var tuples = [];
-  var tax;
+  var tax = 0;
 
   for (var i = 0; i < arr.length; i+=2) {
     var tuple = {};

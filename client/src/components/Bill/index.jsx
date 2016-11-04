@@ -9,7 +9,7 @@ import BillItemList from './../BillItemList';
 import DescriptionField from './../DescriptionField';
 import TaxField from './../TaxField';
 import TipField from './../TipField';
-
+ 
 /**
  * @class Bill
  */
@@ -707,7 +707,6 @@ class Bill extends React.Component {
     let tax = this.state.tax;
     let tip = this.state.tip.value;
     total = subtotal + tax + tip;
-
     this.setState({total: total})
     return total;
   }
@@ -754,9 +753,9 @@ class Bill extends React.Component {
         body: this.state.file
       }).then(result => result.json())
       .then(data => {
-        this.setState({items: data.items,
-                       inputType: null,
-                       tax: data.tax,
+        this.setState({items: data.items, 
+                       inputType: null, 
+                       tax: data.tax || 0,
                        imagePreviewUrl: null
                       });
 
@@ -866,9 +865,10 @@ class Bill extends React.Component {
                 />
               </Well>
 
+
               {(this.state.interactionType === Symbol.for('new')) ||
                 (this.state.interactionType === Symbol.for('edit'))
-                ? <p>The subtotal is: ${this.state.subtotal}</p>
+                ? <p>The subtotal is: ${round(this.state.subtotal, 2)}</p>
                 : null
               }
 
@@ -881,7 +881,7 @@ class Bill extends React.Component {
                 changeTipValue={this.changeTipValue}
                 changeTipPercent={this.changeTipPercent}
                 interactionType={this.state.interactionType}
-                tipValue={this.state.tip.value}
+                tipValue={round(this.state.tip.value, 2)}
               />
               {
                 /**
@@ -889,9 +889,10 @@ class Bill extends React.Component {
                  */
               }
 
+
               {(this.state.interactionType === Symbol.for('new')) ||
                 (this.state.interactionType === Symbol.for('edit'))
-                ? <p>The total is: ${this.state.total}</p>
+                ? <p>The total is: ${round(this.state.total, 2)}</p>
                 : null
               }
 
@@ -911,16 +912,14 @@ class Bill extends React.Component {
 
               {(this.state.shortId) &&
                 <div>
-                  <br />
-                  <h5>Copy this link to send to your friends</h5>
                   <FormGroup>
                     <InputGroup>
                       <InputGroup.Addon>Link:</InputGroup.Addon>
-                      <InputGroup.Addon>{`http://localhost:3001/bill/${this.state.shortId}`}</InputGroup.Addon>
+                      <InputGroup.Addon>{`${this.serverUrl}/bill/${this.state.shortId}`}</InputGroup.Addon>
                       <InputGroup.Button>
                         <ClipboardButton
                           className="btn btn-primary shortLink"
-                          data-clipboard-text={`http://localhost:3001/bill/${this.state.shortId}`}
+                          data-clipboard-text={`${this.serverUrl}/bill/${this.state.shortId}`}
                         >
                           <span className="glyphicon glyphicon-copy"></span>
                         </ClipboardButton>
@@ -943,16 +942,14 @@ class Bill extends React.Component {
               }
               {(this.state.interactionType === Symbol.for('claim')) &&
                 <div>
-                  <br />
                   <a
-                    className="btn btn-primary"
                     href={`https://cash.me/${this.state.payer.squareId}/${round(this.state.curDebtorDebt, 2)}`}
                     onClick={this.payForClaimedItems}
                   >
                     Pay via Square Cash
                   </a>
+                  <br />
                   <a
-                    className="btn btn-primary"
                     href={`https://paypal.me/${this.state.payer.paypalId}/${round(this.state.curDebtorDebt, 2)}`}
                     onClick={this.payForClaimedItems}
                   >

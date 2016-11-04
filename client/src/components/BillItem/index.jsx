@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormGroup, FormControl, InputGroup, Button, Row, Col } from 'react-bootstrap';
+import { FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
 import './BillItem.css';
 
 
@@ -82,7 +82,7 @@ const BillItem = (props) => {
                 onChange={fieldChange}
                 placeholder="Price"
                 type="number"
-                value={props.price}
+                value={(props.price).toFixed(2)}
                 disabled={!!props.debtorId}
               />
               <InputGroup.Button>
