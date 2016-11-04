@@ -85,7 +85,7 @@ const BillItem = (props) => {
       }
       {!isEditable &&
         <div>
-          <FormGroup inline>
+          <FormGroup validationState={!!props.debtorId ? "success" : "warning"} inline>
             <InputGroup>
               <InputGroup.Addon>
                 Claim  <input
