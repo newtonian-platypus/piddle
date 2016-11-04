@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
 import './BillItem.css';
-
+import { round } from 'mathjs';
 
 /**
  * @class BillItem
@@ -82,7 +82,7 @@ const BillItem = (props) => {
                 onChange={fieldChange}
                 placeholder="Price"
                 type="number"
-                value={(props.price).toFixed(2)}
+                value={props.price}
                 disabled={!!props.debtorId}
               />
               <InputGroup.Button>
@@ -111,7 +111,7 @@ const BillItem = (props) => {
                 />
               </InputGroup.Addon>
               <InputGroup.Addon>{props.description}</InputGroup.Addon>
-              <InputGroup.Addon>{props.price}</InputGroup.Addon>
+              <InputGroup.Addon>${(props.price).toFixed(2)}</InputGroup.Addon>
               <InputGroup.Button>
               <Button
                 bsStyle="info"
