@@ -915,11 +915,11 @@ class Bill extends React.Component {
                   <FormGroup>
                     <InputGroup>
                       <InputGroup.Addon>Link:</InputGroup.Addon>
-                      <InputGroup.Addon>{`http://localhost:3001/bill/${this.state.shortId}`}</InputGroup.Addon>
+                      <InputGroup.Addon>{`${this.serverUrl}/bill/${this.state.shortId}`}</InputGroup.Addon>
                       <InputGroup.Button>
                         <ClipboardButton
                           className="btn btn-primary shortLink"
-                          data-clipboard-text={`http://localhost:3001/bill/${this.state.shortId}`}
+                          data-clipboard-text={`${this.serverUrl}/bill/${this.state.shortId}`}
                         >
                           <span className="glyphicon glyphicon-copy"></span>
                         </ClipboardButton>
@@ -942,16 +942,14 @@ class Bill extends React.Component {
               }
               {(this.state.interactionType === Symbol.for('claim')) &&
                 <div>
-                  <br />
                   <a
-                    className="btn btn-primary"
                     href={`https://cash.me/${this.state.payer.squareId}/${round(this.state.curDebtorDebt, 2)}`}
                     onClick={this.payForClaimedItems}
                   >
                     Pay via Square Cash
                   </a>
+                  <br />
                   <a
-                    className="btn btn-primary"
                     href={`https://paypal.me/${this.state.payer.paypalId}/${round(this.state.curDebtorDebt, 2)}`}
                     onClick={this.payForClaimedItems}
                   >
