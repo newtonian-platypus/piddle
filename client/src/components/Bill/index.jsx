@@ -693,44 +693,6 @@ class Bill extends React.Component {
     reader.readAsDataURL(file)
   }
 
-  _handleImageChange(e) {
-    e.preventDefault();
-    this.setState({tax: 0});
-
-    let reader = new FileReader();
-    let file = e.target.files[0];
-
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
-      });
-      // console.log(this.state.imagePreviewUrl);
-      // console.log('file', file);
-
-      fetch(`${this.serverUrl}/api/image`, {
-        headers: {
-          'Accept': 'application/text'
-        },
-        method: 'POST',
-        body: this.state.file
-      }).then(result => result.json())
-      .then(data => {
-        this.setState({items: data.items,
-                       inputType: null,
-                       tax: data.tax,
-                       imagePreviewUrl: null
-                      });
-
-        this.setState({total: this.calculateTotal(),
-                       subtotal: this.calculateSubtotal()
-                      });
-      })
-      .catch(err => console.log(err));
-    }
-    reader.readAsDataURL(file)
-  }
-
   /**
    * Render the component
    * @method
