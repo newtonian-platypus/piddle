@@ -11,5 +11,18 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-  env:
-    - TRAVIS=travis CXX=g++-4.8
+env:
+  - TRAVIS=travis CXX=g++-4.8
+deploy:
+  provider: codedeploy
+  access_key_id: AWS_ACCESS_KEY
+  secret_access_key: AWS_SECRET_KEY
+  bucket: "S3 Bucket"
+  revision_type: github
+  key: latest/piddle.zip
+  application: piddle
+  wait-until-deployed: true
+  deployment_group: newtonian-platypus
+  on:
+    repo: newtonian-platypus/piddle
+    branch: develop
