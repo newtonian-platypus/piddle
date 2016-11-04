@@ -479,11 +479,44 @@ class Bill extends React.Component {
    * @param {object} event
    * @param {number} id - The bill item's id.
    */
-  deleteBillItem(event, id) {
+  deleteBillItem(event, id, itemId) {
     event.preventDefault();
     const previousItems = this.state.items;
     previousItems.splice(id, 1);
     this.setState({ items: previousItems });
+
+    const jsonHeaders = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `JWT ${this.state.token.raw}`,
+    };
+
+    // ref: https://github.com/github/fetch
+    const checkStatus = (response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response;
+      }
+
+      const error = new Error(response.statusText);
+      error.response = response;
+      throw error;
+    };
+
+    fetch(`${this.serverUrl}/api/item/${itemId}`, {
+      method: 'DELETE',
+      headers: jsonHeaders,
+    })
+      .then(checkStatus)
+      .then(response => response.json())
+      .then(() => {
+        console.log('item deleted');
+      })
+      .catch((error) => {
+        /**
+         * @todo handle this error appropriately
+         */
+        console.error(error);
+      });
 
     this.updateTip();
     this.calculateSubtotal();
@@ -783,7 +816,11 @@ class Bill extends React.Component {
                 />
               </Well>
 
-              <p>The subtotal is: ${this.state.subtotal}</p>
+              {(this.state.interactionType === Symbol.for('new')) ||
+                (this.state.interactionType === Symbol.for('edit'))
+                ? <p>The subtotal is: ${this.state.subtotal}</p>
+                : null
+              }
 
               <TaxField
                 changeTaxValue={this.changeTaxValue}
@@ -802,7 +839,11 @@ class Bill extends React.Component {
                  */
               }
 
-              <p>The total is: ${this.state.total}</p>
+              {(this.state.interactionType === Symbol.for('new')) ||
+                (this.state.interactionType === Symbol.for('edit'))
+                ? <p>The total is: ${this.state.total}</p>
+                : null
+              }
 
               {(this.state.interactionType === Symbol.for('new')) &&
                 <div className="text-center">

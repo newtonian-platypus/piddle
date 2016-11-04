@@ -233,6 +233,10 @@ const updateItem = (request, response) => {
     });
 };
 
+const deleteItem = (request, response) => {
+  itemController.deleteItem(request.params.id);
+};
+
 /*
  * Update an item. The logic for PUT /api/item/:id.
  * @param {readableStream} request Request stream. See API documentation for parameters.
@@ -248,7 +252,7 @@ const changeProfile = (request, response) => {
     })
     .then(id => {
       userController.updateUser(id, request.body)
-        .then( test => { 
+        .then( test => {
           response.end('Changed the user!');
         })
         .catch( err => { console.log('\nAn Error:\n', err); });
@@ -263,4 +267,5 @@ module.exports = {
   updateItem,
   changeProfile,
   destroyBill,
+  deleteItem,
 };

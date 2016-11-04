@@ -310,6 +310,7 @@ router.delete('/bill/:shortId', authHandler.ensureAuthenticated, apiHandler.dest
  * }
  */
 router.put('/item/:id', authHandler.ensureAuthenticated, apiHandler.updateItem);
+router.delete('/item/:id', authHandler.ensureAuthenticated, apiHandler.deleteItem);
 
 
 router.put('/user/id', apiHandler.changeProfile);

@@ -88,7 +88,7 @@ const BillItem = (props) => {
               <InputGroup.Button>
                 <Button
                   bsStyle="danger"
-                  onClick={event => props.deleteBillItem(event, props.index)}
+                  onClick={event => props.deleteBillItem(event, props.index, props.id)}
                   disabled={!!props.debtorId}>
                   Delete
                 </Button>
@@ -112,6 +112,13 @@ const BillItem = (props) => {
               </InputGroup.Addon>
               <InputGroup.Addon>{props.description}</InputGroup.Addon>
               <InputGroup.Addon>{props.price}</InputGroup.Addon>
+              <InputGroup.Button>
+              <Button
+                bsStyle="info"
+              >
+                Split
+              </Button>
+            </InputGroup.Button>
             </InputGroup>
           </FormGroup>
         </div>
