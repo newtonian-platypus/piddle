@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, InputGroup, Button, Row, Col } from 'react-bootstrap';
 import './BillItem.css';
 
 
@@ -84,16 +84,22 @@ const BillItem = (props) => {
         </div>
       }
       {!isEditable &&
-            // checked={!!props.debtorId}
         <div>
-          <input
-            type="checkbox"
-            value={props.id}
-            checked={!!props.debtorId}
-            onChange={props.claimBillItem}
-            disabled={!!props.paid}
-          />
-          <span>{props.description}: {props.price}</span>
+          <FormGroup inline>
+            <InputGroup>
+              <InputGroup.Addon>
+                Claim  <input
+                  type="checkbox"
+                  value={props.id}
+                  checked={!!props.debtorId}
+                  onChange={props.claimBillItem}
+                  disabled={!!props.paid}
+                />
+              </InputGroup.Addon>
+              <InputGroup.Addon>{props.description}</InputGroup.Addon>
+              <InputGroup.Addon>{props.price}</InputGroup.Addon>
+            </InputGroup>
+          </FormGroup>
         </div>
       }
     </div>
