@@ -17,7 +17,9 @@ class JumbotronInstance extends Component {
     return (
       <Jumbotron>
         <h1>Tendr</h1>
-        <p className="lead">Split the bill like a pro.</p>
+        <p className="lead">The fastest way to split a bill.</p>
+        <p>Take a photo of the receipt and let Tendr fill it in</p>
+        <br />
         <Row>
           <Col xs={12} sm={6}>
             <p><Button bsStyle="primary" bsSize="large" onClick={this.handleCallToAction}>
