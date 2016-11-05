@@ -1,4 +1,6 @@
 require('dotenv').config({silent: true});
+const fs = require('fs');
+const https = require('https');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -37,7 +39,22 @@ app.use('*', (request, response) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port);
 
-console.log(`Server listening on port: ${port}`);
+const sslPath = process.env.SSL_PATH || '/etc/letsencrypt/live/tendr.trautlein.com';
+const options = {
+  key: fs.readFileSync(sslPath + '/privkey.pem'),
+  cert: fs.readFileSync(sslPath + '/fullchain.pem')
+};
+
+// secure server setup
+const server = https.createServer(options, app);
+server.listen(port, err => {
+  if (err) {
+    error('Error while trying to start the server (port already in use maybe?)');
+    return err;
+  }
+  console.log(`secure server listening on port ${port}`);
+});
+
+
 module.exports = app;
