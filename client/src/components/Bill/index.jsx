@@ -836,9 +836,12 @@ class Bill extends React.Component {
 
             {(this.state.inputType === 'photo') &&
               <div className="uploadBill">
-                <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
                 <div>
-                  {this.state.imagePreviewUrl ? <img src={this.state.imagePreviewUrl} alt="uploaded receipt"/> : null}
+                  {
+                    this.state.imagePreviewUrl 
+                    ? null
+                    : <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
+                  }
                 </div>
               </div>
             }
