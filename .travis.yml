@@ -15,8 +15,8 @@ env:
   - TRAVIS=travis CXX=g++-4.8
 deploy:
   provider: codedeploy
-  access_key_id: AWS_ACCESS_KEY
-  secret_access_key: AWS_SECRET_KEY
+  access_key_id: AKIAIWQO6YB3AZVMIYAA
+  secret_access_key: 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
   bucket: "S3 Bucket"
   revision_type: github
   key: latest/piddle.zip
