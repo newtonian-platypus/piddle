@@ -40,15 +40,11 @@ class NavBar extends Component {
       <Navbar inverse collapseOnSelect fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
-            <a onClick={this.handleBrandClick}>Piddle</a>
+            <a onClick={this.handleBrandClick}>Tendr</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
-            <NavItem eventKey={1} onSelect={this.handleLinkClick}>Make Bill</NavItem>
-            <NavItem eventKey={2} onSelect={this.handleLinkClick}>Pay Bill</NavItem>
-          </Nav>
           <Nav pullRight>
             <NavDropdown title="Account" id="basic-nav-dropdown">
               <MenuItem eventKey={3} onSelect={this.handleLinkClick}>Log In</MenuItem>

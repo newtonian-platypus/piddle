@@ -16,7 +16,7 @@ class JumbotronInstance extends Component {
   render() {
     return (
       <Jumbotron>
-        <h1>Piddle</h1>
+        <h1>Tendr</h1>
         <p className="lead">Split the bill like a pro.</p>
         <Row>
           <Col xs={12} sm={6}>
