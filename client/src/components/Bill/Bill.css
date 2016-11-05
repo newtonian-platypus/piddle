@@ -18,35 +18,47 @@
   font-size: large;
 }
 
+
 #create-new-bill-btn {
   margin-top: 1em;
   margin-bottom: 5em;
+  background: #25262C;
+  color: #ffffff;
+/*  border: 1px solid black;
+*/}
+
+#take-photo-btn {
+  margin-bottom: 1em;
+  margin-bottom: 1em;
+  background: #25262C;
+  color: #ffffff;
+  /*border: 1px solid black;*/
+}
+
+#take-photo-btn:focus {
+  box-shadow: 0 0 0 2pt #25262C;
+  outline: 0;
+}
+
+#take-photo-btn:hover {
+  background: #222222;
+}
+
+#create-new-bill-btn:hover {
+  background: #222222;
+}
+
+#create-new-bill-btn:focus {
+  box-shadow: 0 0 0 2pt #25262C;
+  outline: 0;
 }
 
 .well-lg {
-  background-color: rgba(245, 245, 245, 0.7) !important;
+  background-color: rgba(245, 245, 245, 0.8) !important;
 }
 
 .lead {
   font-size: 2em !important;
-}
-
-.uploadBill {
-  padding: 1.4em;
-}
-
-.Enter-items-below {
-  padding: 0.5em;
-  font-size: 1.5em;
-}
-
-#take-photo-btn {
-  margin-right: 2em;
-  margin-bottom: 1em;
-}
-
-#manual-btn {
-  margin-bottom: 1em;
 }
 
 .shortLink {

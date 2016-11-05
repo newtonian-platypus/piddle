@@ -920,7 +920,6 @@ class Bill extends React.Component {
 
               {(this.state.interactionType === Symbol.for('edit')) &&
                 <Button
-                  className="btn-primary"
                   id="create-new-bill-btn"
                   bsSize="lg"
                   type="submit"

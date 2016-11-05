@@ -4,13 +4,16 @@
 
 .quantity {
   width: 9em;
-  padding-right: 1em;
+  padding-right: 0em;
+  display: inline-block;
 }
 
 .price {
-  width: 14em;
+  width: 12.7em;
+  display: inline-block;
 }
 
 .description {
-  padding-right: 1em;
+  display: inline;
 }
+
