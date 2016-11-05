@@ -804,25 +804,10 @@ class Bill extends React.Component {
 
             {(this.state.interactionType === Symbol.for('new')) &&
               <div className="text-center">
-                <Button
-                  className="btn-primary"
-                  id="take-photo-btn"
-                  bsSize="lg"
-                  type="submit"
-                  value="Take Photo"
-                  onClick={this.takePhoto.bind(this)}
-                >Take Photo
-                </Button>
-
-                <Button
-                  className="btn-primary"
-                  id="manual-btn"
-                  bsSize="lg"
-                  type="submit"
-                  value="Manual"
-                  onClick={this.enterManually.bind(this)}
-                >Manual
-                </Button>
+                  <span className="btn btn-primary btn-lg btn-file" id="take-photo-btn"> 
+                    Take Photo <span className="glyphicon glyphicon-camera" />
+                    <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
+                  </span>
               </div>
             }
 
@@ -840,7 +825,9 @@ class Bill extends React.Component {
                   {
                     this.state.imagePreviewUrl 
                     ? null
-                    : <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
+                    : <span className="btn btn-primary btn-file"> 
+                        Take Photo<input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
+                      </span>
                   }
                 </div>
               </div>
