@@ -18,7 +18,7 @@
   font-size: large;
   background-color: rgba(245, 245, 245, 0.8) !important;
   width: auto;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 
