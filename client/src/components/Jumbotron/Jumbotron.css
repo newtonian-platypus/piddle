@@ -1,3 +1,19 @@
 .jumbotron {
   background-color: rgba(245, 245, 245, 0.8) !important;
 }
+
+.tendr {
+  font-family: "Shadows Into Light";
+  font-weight: bold;
+  font-size: 6em !important;
+  padding-left: .3em !important;
+}
+
+.lead {
+  font-size: 1.5em !important;
+}
+
+.subtitle {
+  font-weight: bold !important;
+  margin-bottom: -8px !important;
+}

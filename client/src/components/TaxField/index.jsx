@@ -34,7 +34,7 @@ const TaxField = (props) => {
         </FormGroup>
       }
       {!isEditable &&
-        <h4>Tax: {props.taxValue}</h4>
+        <h4 className="tax-total">Tax: ${props.taxValue}</h4>
       }
     </div>
   );

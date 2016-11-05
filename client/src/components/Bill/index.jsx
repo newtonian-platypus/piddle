@@ -205,7 +205,7 @@ class Bill extends React.Component {
       tax: this.state.tax,
       tip: this.state.tip.value,
     };
-
+    console.log('bill', bill);
     /**
      * @todo Extract these variables and functions into a module (DRY).
      */
@@ -798,7 +798,7 @@ class Bill extends React.Component {
             }
             {(this.state.interactionType === Symbol.for('claim')) &&
               <p className="Bill-intro lead">
-                Claim the items that belong to you!
+                Claim your items!
               </p>
             }
 
@@ -857,7 +857,7 @@ class Bill extends React.Component {
 
               {(this.state.interactionType === Symbol.for('new')) ||
                 (this.state.interactionType === Symbol.for('edit'))
-                ? <p>The subtotal is: ${round(this.state.subtotal, 2)}</p>
+                ? <p className="totals-text">The subtotal is: ${round(this.state.subtotal, 2)}</p>
                 : null
               }
 
@@ -881,7 +881,7 @@ class Bill extends React.Component {
 
               {(this.state.interactionType === Symbol.for('new')) ||
                 (this.state.interactionType === Symbol.for('edit'))
-                ? <p>The total is: ${round(this.state.total, 2)}</p>
+                ? <p className="totals-text">The total is: ${round(this.state.total, 2)}</p>
                 : null
               }
 

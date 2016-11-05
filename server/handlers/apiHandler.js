@@ -245,9 +245,9 @@ const splitItem = (request, response) => {
       let billId = itemInstance.dataValues.billId;
       let oldItem = {
         description: itemInstance.dataValues.description,
-        price: itemInstance.dataValues.price
+        price: itemInstance.dataValues.price,
+        quantity: itemInstance.dataValues.quantity
       };
-      console.log(oldItem, billId);
 
       // delete item from db
       itemController.deleteItem(itemInstance.dataValues.id);
@@ -256,8 +256,10 @@ const splitItem = (request, response) => {
       let newItem = {
         description: `${oldItem.description} 1/2`,
         price: `${(oldItem.price / 2).toFixed(2)}`,
-        paid: false
+        paid: false,
+        quantity: `${Math.ceil((oldItem.quantity) / 2)}`
       }
+      console.log(newItem);
 
       itemController.createItemsForBill(billId, [newItem, newItem]);
       response.status(201).end();

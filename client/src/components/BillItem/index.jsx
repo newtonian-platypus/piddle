@@ -100,9 +100,9 @@ const BillItem = (props) => {
       {!isEditable &&
         <div>
           <FormGroup validationState={!!props.debtorId ? "success" : "warning"} inline>
-            <InputGroup>
+            <InputGroup className="check-items">
               <InputGroup.Addon>
-                Claim  <input
+                <input
                   type="checkbox"
                   value={props.id}
                   checked={!!props.debtorId}
@@ -110,6 +110,7 @@ const BillItem = (props) => {
                   disabled={!!props.paid}
                 />
               </InputGroup.Addon>
+              <InputGroup.Addon>{props.quantity}</InputGroup.Addon>
               <InputGroup.Addon>{props.description}</InputGroup.Addon>
               <InputGroup.Addon>${(props.price).toFixed(2)}</InputGroup.Addon>
               <InputGroup.Button>

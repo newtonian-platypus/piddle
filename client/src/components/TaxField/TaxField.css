@@ -1,3 +1,12 @@
 .taxField {
   margin-bottom: .5em;
 }
+
+.tax-total {
+  background-color: rgba(245, 245, 245, 0.8) !important;
+  padding-left: 11px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  width: 120px;
+  font-weight: bold;
+}

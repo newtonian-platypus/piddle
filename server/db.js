@@ -47,6 +47,10 @@ const Item = sequelize.define('item', {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
+  quantity: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  }
   // claimed: {
   //   type: Sequelize.BOOLEAN,
   //   defaultValue: false,

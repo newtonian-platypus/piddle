@@ -16,6 +16,9 @@
 
 .Bill-intro {
   font-size: large;
+  background-color: rgba(245, 245, 245, 0.8) !important;
+  width: auto;
+  font-weight: bold;
 }
 
 
@@ -24,15 +27,15 @@
   margin-bottom: 5em;
   background: #25262C;
   color: #ffffff;
-/*  border: 1px solid black;
-*/}
+  border: 1px solid grey;
+}
 
 #take-photo-btn {
   margin-bottom: 1em;
   margin-bottom: 1em;
   background: #25262C;
   color: #ffffff;
-  /*border: 1px solid black;*/
+  border: 1px solid grey;
 }
 
 #take-photo-btn:focus {
@@ -55,6 +58,15 @@
 
 .well-lg {
   background-color: rgba(245, 245, 245, 0.8) !important;
+}
+
+.totals-text {
+  background-color: rgba(245, 245, 245, 0.8) !important;
+  padding-left: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width: 180px;
+  font-weight: bold;
 }
 
 .lead {

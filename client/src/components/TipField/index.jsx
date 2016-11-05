@@ -72,7 +72,7 @@ const TipField = (props) => {
         </FormGroup>
       }
       {!isEditable &&
-        <h4>Tip: {props.tipValue}</h4>
+        <h4 className="tip-total">Tip: ${props.tipValue}</h4>
       }
     </div>
   );
