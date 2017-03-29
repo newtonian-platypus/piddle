@@ -33,12 +33,16 @@ const createBill = function createBill(bill) {
     }
     return userController.findUserByEmailAddress(bill.payerEmailAddress)
       .then((payerRecord) => {
+        console.log('payer record', payerRecord);
         const billWithPayerId = Object.assign({}, bill, { payerId: payerRecord.id });
+        console.log('billwpayerid', billWithPayerId);
         return Bill.create(billWithPayerId)
         .then((billRecord) => {
+          console.log('billRecord', billRecord);
           // have bill, now create the items
           itemController.createItemsForBill(billRecord.dataValues.id, bill.items)
           .then(() => {
+            console.log('before billrecord resolve');
             resolve(billRecord);
           })
           .catch((err) => {

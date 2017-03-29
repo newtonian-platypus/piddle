@@ -9,7 +9,7 @@ import BillItemList from './../BillItemList';
 import DescriptionField from './../DescriptionField';
 import TaxField from './../TaxField';
 import TipField from './../TipField';
- 
+
 /**
  * @class Bill
  */
@@ -428,6 +428,8 @@ class Bill extends React.Component {
       tip: this.state.tip.value,
     };
 
+    console.log(bill);
+
     /**
      * @todo Extract these variables and functions into a module (DRY).
      */
@@ -752,8 +754,8 @@ class Bill extends React.Component {
         body: this.state.file
       }).then(result => result.json())
       .then(data => {
-        this.setState({items: data.items, 
-                       inputType: null, 
+        this.setState({items: data.items,
+                       inputType: null,
                        tax: data.tax || 0,
                        imagePreviewUrl: null
                       });
@@ -804,7 +806,7 @@ class Bill extends React.Component {
 
             {(this.state.interactionType === Symbol.for('new')) &&
               <div className="text-center">
-                  <span className="btn btn-primary btn-lg btn-file" id="take-photo-btn"> 
+                  <span className="btn btn-primary btn-lg btn-file" id="take-photo-btn">
                     Take Photo <span className="glyphicon glyphicon-camera" />
                     <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
                   </span>
@@ -823,9 +825,9 @@ class Bill extends React.Component {
               <div className="uploadBill">
                 <div>
                   {
-                    this.state.imagePreviewUrl 
+                    this.state.imagePreviewUrl
                     ? null
-                    : <span className="btn btn-primary btn-file"> 
+                    : <span className="btn btn-primary btn-file">
                         Take Photo<input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
                       </span>
                   }
