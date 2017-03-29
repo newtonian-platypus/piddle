@@ -13,7 +13,9 @@ const userController = require('../dbControllers/userController');
  * @param {writeableStream} response Response stream. See API documentation for parameters.
  */
 const saveBill = (request, response) => {
+  console.log('save bill?');
   const bill = request.body;
+  console.log(bill);
   billController.createBill(bill)
     .then((billRecord) => {
       response.status(201);
