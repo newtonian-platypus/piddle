@@ -6,7 +6,10 @@
   "scripts": {
     "test": "NODE_ENV=test ./node_modules/.bin/mocha server/spec",
     "start": "NODE_ENV=dev ./node_modules/.bin/nodemon server/server.js",
-    "doc": "./node_modules/.bin/apidoc -i server/routes -o docs/api & ./node_modules/.bin/jsdoc -c ./jsdocsConfig.json"
+    "build:client": "(cd ./client exec npm run build)",
+    "doc": "./node_modules/.bin/apidoc -i server/routes -o docs/api & ./node_modules/.bin/jsdoc -c ./jsdocsConfig.json",
+    "docker": "npm run install:all && npm run build:client && npm run start",
+    "install:all": "npm install && (cd ./client && exec npm install)"
   },
   "apidoc": {
     "title": "The API for the Piddle bill splitting application",
