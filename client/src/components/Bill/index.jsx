@@ -806,19 +806,15 @@ class Bill extends React.Component {
 
             {this.state.interactionType === Symbol.for('new') &&
               <div className="text-center">
-                <span className="btn btn-primary btn-lg btn-file" id="take-photo-btn">
-                  Take Photo <span className="glyphicon glyphicon-camera" />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    capture="camera"
-                    name="userPhoto"
-                    onChange={this._handleImageChange}
-                  />
-                </span>
-              </div>}
+                  <span className="btn btn-primary btn-lg btn-file" id="take-photo-btn">
+                    Take Photo <span className="glyphicon glyphicon-camera" />
+                    <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
+                  </span>
+              </div>
+            }
 
-            {this.state.inputType === 'manual' &&
+
+            {(this.state.inputType === 'manual') &&
               <p className="Enter-items-below text-center">
                 Enter your items in the form below.
               </p>}
@@ -826,18 +822,13 @@ class Bill extends React.Component {
             {this.state.inputType === 'photo' &&
               <div className="uploadBill">
                 <div>
-                  {this.state.imagePreviewUrl
+                  {
+                    this.state.imagePreviewUrl
                     ? null
                     : <span className="btn btn-primary btn-file">
-                        Take Photo
-                        <input
-                          type="file"
-                          accept="image/*"
-                          capture="camera"
-                          name="userPhoto"
-                          onChange={this._handleImageChange}
-                        />
-                      </span>}
+                        Take Photo<input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
+                      </span>
+                  }
                 </div>
               </div>}
             <Form
@@ -908,15 +899,11 @@ class Bill extends React.Component {
                   <FormGroup>
                     <InputGroup>
                       <InputGroup.Addon>Link:</InputGroup.Addon>
-                      <InputGroup.Addon>
-                        {`http://${window.location.hostname}/bill/${this.state.shortId}`}
-                      </InputGroup.Addon>
+                      <InputGroup.Addon>{`https://localhost:3001/bill/${this.state.shortId}`}</InputGroup.Addon>
                       <InputGroup.Button>
                         <ClipboardButton
                           className="btn btn-primary shortLink"
-                          data-clipboard-text={
-                            `http://${window.location.hostname}/bill/${this.state.shortId}`
-                          }
+                          data-clipboard-text={`https://localhost:3001/bill/${this.state.shortId}`}
                         >
                           <span className="glyphicon glyphicon-copy" />
                         </ClipboardButton>

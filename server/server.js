@@ -1,5 +1,6 @@
 require('dotenv').config({silent: true});
 const fs = require('fs');
+const http = require('http');
 const https = require('https');
 const express = require('express');
 const morgan = require('morgan');
@@ -57,5 +58,16 @@ const port = process.env.PORT || 3000;
 // });
 app.listen(port);
 
+// // Tried to get redirection server working here
+// const reApp = express();
+// 
+// reApp.use('*', (request, response) => {
+//   console.log('HTTP:' + request.url + '\n\n' + request.headers.host);
+//   return response.redirect('https://' + request.headers["host"]);
+// });
+// 
+// reApp.listen(8080, () => {
+//   console.log('Redirection app listening on port 8080.');
+// });
 
 module.exports = app;
