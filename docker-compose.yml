@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: node:latest
+    image: node:boron
     volumes:
       - ./:/usr/src/app
     working_dir: /usr/src/app
