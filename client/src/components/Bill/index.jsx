@@ -21,7 +21,9 @@ class Bill extends React.Component {
   constructor(props) {
     super(props);
 
-    this.serverUrl = /^(development|test)$/.test(process.env.NODE_ENV) ? 'http://localhost:3000' : '';
+    this.serverUrl = /^(development|test)$/.test(process.env.NODE_ENV)
+      ? 'http://localhost:3000'
+      : '';
 
     this.stateSetter = this.stateSetter.bind(this);
 
@@ -59,7 +61,6 @@ class Bill extends React.Component {
       edit: Symbol.for('edit'),
       claim: Symbol.for('claim')
     };
-
   }
 
   /**
@@ -76,14 +77,12 @@ class Bill extends React.Component {
       description: '',
       inputType: null,
       interactionType: this.interactionTypes.new,
-      items: [
-        { description: '', price: 0, quantity: 1 },
-      ],
+      items: [{ description: '', price: 0, quantity: 1 }],
       tax: 0,
       tip: {
         value: 0,
         percent: null,
-        usePercent: false,
+        usePercent: false
       },
       subtotal: 0,
       total: 0,
@@ -97,7 +96,7 @@ class Bill extends React.Component {
        * This approach is giving a console error in local dev
        */
       stateObj.error = {
-        message: 'Error: Not authenticated',
+        message: 'Please log in or sign up for an account'
       };
     } else {
       // Set the default state here. We'll load the actual Bill data later
@@ -107,7 +106,7 @@ class Bill extends React.Component {
 
       stateObj.token = {
         raw: token,
-        decoded: jwtDecode(token),
+        decoded: jwtDecode(token)
       };
     }
 
@@ -127,7 +126,7 @@ class Bill extends React.Component {
        * @todo Extract these variables and functions into a module (DRY).
        */
       // ref: https://github.com/github/fetch
-      const checkStatus = (response) => {
+      const checkStatus = response => {
         if (response.status >= 200 && response.status < 300) {
           return response;
         }
@@ -141,52 +140,52 @@ class Bill extends React.Component {
       fetch(`${this.serverUrl}/api/bill/${billId}`, {
         method: 'GET',
         headers: {
-          Authorization: `JWT ${this.state.token.raw}`,
-        },
+          Authorization: `JWT ${this.state.token.raw}`
+        }
       })
-      .then(checkStatus)
-      .then(response => response.json())
-      .then(({ data }) => {
-        const interactionType =
-          (data.payerId === this.state.token.decoded.id) ?
-          this.interactionTypes.edit : this.interactionTypes.claim;
+        .then(checkStatus)
+        .then(response => response.json())
+        .then(({ data }) => {
+          const interactionType = data.payerId === this.state.token.decoded.id
+            ? this.interactionTypes.edit
+            : this.interactionTypes.claim;
 
-        return this.setState({
-          ...this.state,
-          ...data,
-          /**
+          return this.setState({
+            ...this.state,
+            ...data,
+            /**
            * @todo edit/claim based on whether the current user owns the retreived bill
            */
-          interactionType,
-          tip: {
-            value: data.tip,
-            percent: null,
-            usePercent: false,
-          },
-        });
-      })
-      .catch((error) => {
-        /**
+            interactionType,
+            tip: {
+              value: data.tip,
+              percent: null,
+              usePercent: false
+            }
+          });
+        })
+        .catch(error => {
+          /**
          * @todo handle this error appropriately
          */
-        const userNotAuthorizedToViewBill = (error.response.status === 401);
-        if (userNotAuthorizedToViewBill) {
-          this.setState({ error });
-        }
-      });
+          const userNotAuthorizedToViewBill = error.response.status === 401;
+          if (userNotAuthorizedToViewBill) {
+            this.setState({ error });
+          }
+        });
     }
   }
 
   enterManually(event) {
     event.preventDefault();
 
-    this.setState({ inputType : 'manual'});
+    this.setState({ inputType: 'manual' });
   }
 
   takePhoto(event) {
     event.preventDefault();
 
-    this.setState({ inputType: 'photo', file: null});
+    this.setState({ inputType: 'photo', file: null });
   }
 
   /**
@@ -203,7 +202,7 @@ class Bill extends React.Component {
       items: this.state.items,
       payerEmailAddress: this.state.token.decoded.emailAddress,
       tax: this.state.tax,
-      tip: this.state.tip.value,
+      tip: this.state.tip.value
     };
     console.log('bill', bill);
     /**
@@ -213,11 +212,11 @@ class Bill extends React.Component {
     const jsonHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `JWT ${this.state.token.raw}`,
+      Authorization: `JWT ${this.state.token.raw}`
     };
 
     // ref: https://github.com/github/fetch
-    const checkStatus = (response) => {
+    const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       }
@@ -231,7 +230,7 @@ class Bill extends React.Component {
     fetch(`${this.serverUrl}/api/bill/${this.props.params.id}`, {
       method: 'PUT',
       headers: jsonHeaders,
-      body: JSON.stringify(bill),
+      body: JSON.stringify(bill)
     })
       .then(checkStatus)
       .then(response => response.json())
@@ -246,7 +245,7 @@ class Bill extends React.Component {
         });
         this.props.router.push(`/bill/${data.shortId}`);
       })
-      .catch((error) => {
+      .catch(error => {
         /**
          * @todo handle this error appropriately
          */
@@ -263,19 +262,18 @@ class Bill extends React.Component {
   payForClaimedItems() {
     // event.preventDefault();
 
-    const itemsToPayFor = this.state.items
-      .filter(item => (
-        (item.debtorId === this.state.token.decoded.id && !item.paid)
-      ));
+    const itemsToPayFor = this.state.items.filter(
+      item => item.debtorId === this.state.token.decoded.id && !item.paid
+    );
 
     const jsonHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `JWT ${this.state.token.raw}`,
+      Authorization: `JWT ${this.state.token.raw}`
     };
 
     // ref: https://github.com/github/fetch
-    const checkStatus = (response) => {
+    const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       }
@@ -292,16 +290,19 @@ class Bill extends React.Component {
        */
       // eslint-disable-next-line no-undef
       const itemIndex = Array.from(document.getElementById('createBillForm').elements)
-        .filter(element => (element.tagName === 'INPUT' && element.type === 'checkbox'))
-        .reduce((soughtIndex, element, elementIndex) => {
-          if (soughtIndex !== null) {
-            return soughtIndex;
-          } else if (element.value === itemToPayFor.id) {
-            return elementIndex;
-          }
+        .filter(element => element.tagName === 'INPUT' && element.type === 'checkbox')
+        .reduce(
+          (soughtIndex, element, elementIndex) => {
+            if (soughtIndex !== null) {
+              return soughtIndex;
+            } else if (element.value === itemToPayFor.id) {
+              return elementIndex;
+            }
 
-          return null;
-        }, null);
+            return null;
+          },
+          null
+        );
 
       // eslint-disable-next-line no-undef
       fetch(`${this.serverUrl}/api/item/${itemToPayFor.id}`, {
@@ -309,24 +310,24 @@ class Bill extends React.Component {
         headers: jsonHeaders,
         body: JSON.stringify({
           paid: true,
-          debtorId: itemToPayFor.debtorId,
-        }),
+          debtorId: itemToPayFor.debtorId
+        })
       })
-      .then(checkStatus)
-      .then(response => response.json())
-      .then(({ data }) => {
-        updatedItems[itemIndex] = data;
-        const allItemsUpdated = (index === itemsToPayFor.length - 1);
-        if (allItemsUpdated) {
-          this.setState({ items: updatedItems });
-        }
-      })
-      .catch((err) => {
-        /**
+        .then(checkStatus)
+        .then(response => response.json())
+        .then(({ data }) => {
+          updatedItems[itemIndex] = data;
+          const allItemsUpdated = index === itemsToPayFor.length - 1;
+          if (allItemsUpdated) {
+            this.setState({ items: updatedItems });
+          }
+        })
+        .catch(err => {
+          /**
          * @todo handle this error appropriately
          */
-        console.error(err);
-      });
+          console.error(err);
+        });
     });
   }
 
@@ -342,11 +343,11 @@ class Bill extends React.Component {
     const jsonHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `JWT ${this.state.token.raw}`,
+      Authorization: `JWT ${this.state.token.raw}`
     };
 
     // ref: https://github.com/github/fetch
-    const checkStatus = (response) => {
+    const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       }
@@ -361,16 +362,19 @@ class Bill extends React.Component {
      */
     // eslint-disable-next-line no-undef
     const itemIndex = Array.from(document.getElementById('createBillForm').elements)
-      .filter(element => (element.tagName === 'INPUT' && element.type === 'checkbox'))
-      .reduce((soughtIndex, element, index) => {
-        if (soughtIndex !== null) {
-          return soughtIndex;
-        } else if (element.value === event.target.value) {
-          return index;
-        }
+      .filter(element => element.tagName === 'INPUT' && element.type === 'checkbox')
+      .reduce(
+        (soughtIndex, element, index) => {
+          if (soughtIndex !== null) {
+            return soughtIndex;
+          } else if (element.value === event.target.value) {
+            return index;
+          }
 
-        return null;
-      }, null);
+          return null;
+        },
+        null
+      );
 
     // eslint-disable-next-line no-undef
     fetch(`${this.serverUrl}/api/item/${event.target.value}`, {
@@ -378,37 +382,39 @@ class Bill extends React.Component {
       headers: jsonHeaders,
       body: JSON.stringify({
         paid: false,
-        debtorId: (this.state.items[itemIndex].debtorId) ? null : this.state.token.decoded.id,
-      }),
+        debtorId: this.state.items[itemIndex].debtorId ? null : this.state.token.decoded.id
+      })
     })
-    .then(checkStatus)
-    .then(response => response.json())
-    .then(({ data }) => {
-      const updatedItems = this.state.items;
-      updatedItems[itemIndex] = data;
+      .then(checkStatus)
+      .then(response => response.json())
+      .then(({ data }) => {
+        const updatedItems = this.state.items;
+        updatedItems[itemIndex] = data;
 
-      const sharedBillCosts = (this.state.tax + this.state.tip.value);
-      const totalBillPrice = updatedItems
-        .reduce((billItemSum, item) => (billItemSum + item.price), 0);
-      const curDebtorItemDebt = updatedItems
-        .reduce((billItemSum, item) => (
-          (item.debtorId === this.state.token.decoded.id) ?
-            (billItemSum + item.price) : billItemSum
-        ), 0);
-      const curDebtorDebtPercent = curDebtorItemDebt / totalBillPrice;
-      const curDebtorDebt = curDebtorItemDebt + (curDebtorDebtPercent * sharedBillCosts);
+        const sharedBillCosts = this.state.tax + this.state.tip.value;
+        const totalBillPrice = updatedItems.reduce(
+          (billItemSum, item) => billItemSum + item.price,
+          0
+        );
+        const curDebtorItemDebt = updatedItems.reduce(
+          (billItemSum, item) =>
+            item.debtorId === this.state.token.decoded.id ? billItemSum + item.price : billItemSum,
+          0
+        );
+        const curDebtorDebtPercent = curDebtorItemDebt / totalBillPrice;
+        const curDebtorDebt = curDebtorItemDebt + curDebtorDebtPercent * sharedBillCosts;
 
-      this.setState({
-        curDebtorDebt,
-        items: updatedItems,
-      });
-    })
-    .catch((err) => {
-      /**
+        this.setState({
+          curDebtorDebt,
+          items: updatedItems
+        });
+      })
+      .catch(err => {
+        /**
        * @todo handle this error appropriately
        */
-      console.error(err);
-    });
+        console.error(err);
+      });
   }
 
   /**
@@ -425,7 +431,7 @@ class Bill extends React.Component {
       items: this.state.items,
       payerEmailAddress: this.state.token.decoded.emailAddress,
       tax: this.state.tax,
-      tip: this.state.tip.value,
+      tip: this.state.tip.value
     };
 
     console.log(bill);
@@ -437,11 +443,11 @@ class Bill extends React.Component {
     const jsonHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `JWT ${this.state.token.raw}`,
+      Authorization: `JWT ${this.state.token.raw}`
     };
 
     // ref: https://github.com/github/fetch
-    const checkStatus = (response) => {
+    const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       }
@@ -455,7 +461,7 @@ class Bill extends React.Component {
     fetch(`${this.serverUrl}/api/bill`, {
       method: 'POST',
       headers: jsonHeaders,
-      body: JSON.stringify(bill),
+      body: JSON.stringify(bill)
     })
       .then(checkStatus)
       .then(response => response.json())
@@ -466,7 +472,7 @@ class Bill extends React.Component {
         });
         this.props.router.push(`/bill/${data.shortId}`);
       })
-      .catch((error) => {
+      .catch(error => {
         /**
          * @todo handle this error appropriately
          */
@@ -490,11 +496,11 @@ class Bill extends React.Component {
     const jsonHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `JWT ${this.state.token.raw}`,
+      Authorization: `JWT ${this.state.token.raw}`
     };
 
     // ref: https://github.com/github/fetch
-    const checkStatus = (response) => {
+    const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       }
@@ -506,14 +512,14 @@ class Bill extends React.Component {
 
     fetch(`${this.serverUrl}/api/item/${itemId}`, {
       method: 'DELETE',
-      headers: jsonHeaders,
+      headers: jsonHeaders
     })
       .then(checkStatus)
       .then(response => response.json())
       .then(() => {
         console.log('item deleted');
       })
-      .catch((error) => {
+      .catch(error => {
         /**
          * @todo handle this error appropriately
          */
@@ -533,11 +539,11 @@ class Bill extends React.Component {
     const jsonHeaders = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `JWT ${this.state.token.raw}`,
+      Authorization: `JWT ${this.state.token.raw}`
     };
 
     // ref: https://github.com/github/fetch
-    const checkStatus = (response) => {
+    const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
         return response;
       }
@@ -549,7 +555,7 @@ class Bill extends React.Component {
 
     fetch(`${this.serverUrl}/api/item/split/${itemId}`, {
       method: 'POST',
-      headers: jsonHeaders,
+      headers: jsonHeaders
     })
       .then(checkStatus)
       .then(() => {
@@ -558,41 +564,41 @@ class Bill extends React.Component {
         fetch(`${this.serverUrl}/api/bill/${billId}`, {
           method: 'GET',
           headers: {
-            Authorization: `JWT ${this.state.token.raw}`,
-          },
+            Authorization: `JWT ${this.state.token.raw}`
+          }
         })
-        .then(checkStatus)
-        .then(response => response.json())
-        .then(({ data }) => {
-          const interactionType =
-            (data.payerId === this.state.token.decoded.id) ?
-            this.interactionTypes.edit : this.interactionTypes.claim;
+          .then(checkStatus)
+          .then(response => response.json())
+          .then(({ data }) => {
+            const interactionType = data.payerId === this.state.token.decoded.id
+              ? this.interactionTypes.edit
+              : this.interactionTypes.claim;
 
-          return this.setState({
-            ...this.state,
-            ...data,
-            /**
+            return this.setState({
+              ...this.state,
+              ...data,
+              /**
              * @todo edit/claim based on whether the current user owns the retreived bill
              */
-            interactionType,
-            tip: {
-              value: data.tip,
-              percent: null,
-              usePercent: false,
-            },
-          });
-        })
-        .catch((error) => {
-          /**
+              interactionType,
+              tip: {
+                value: data.tip,
+                percent: null,
+                usePercent: false
+              }
+            });
+          })
+          .catch(error => {
+            /**
            * @todo handle this error appropriately
            */
-          const userNotAuthorizedToViewBill = (error.response.status === 401);
-          if (userNotAuthorizedToViewBill) {
-            this.setState({ error });
-          }
-        });
+            const userNotAuthorizedToViewBill = error.response.status === 401;
+            if (userNotAuthorizedToViewBill) {
+              this.setState({ error });
+            }
+          });
       })
-      .catch((error) => {
+      .catch(error => {
         /**
          * @todo handle this error appropriately
          */
@@ -684,9 +690,7 @@ class Bill extends React.Component {
     // tip based on a given percent.
     let tip = this.state.tip.value;
     if (this.state.tip.usePercent) {
-      const total = this.state.items.reduce((sum, billItem) => (
-        sum + billItem.price
-      ), 0);
+      const total = this.state.items.reduce((sum, billItem) => sum + billItem.price, 0);
       tip = total * (this.state.tip.percent / 100);
     }
     return tip;
@@ -698,7 +702,7 @@ class Bill extends React.Component {
     for (var i = 0; i < items.length; i++) {
       subtotal += items[i].price;
     }
-    this.setState({subtotal: subtotal});
+    this.setState({ subtotal: subtotal });
     return subtotal;
   }
 
@@ -708,7 +712,7 @@ class Bill extends React.Component {
     let tax = this.state.tax;
     let tip = this.state.tip.value;
     total = subtotal + tax + tip;
-    this.setState({total: total})
+    this.setState({ total: total });
     return total;
   }
 
@@ -733,7 +737,7 @@ class Bill extends React.Component {
 
   _handleImageChange(e) {
     e.preventDefault();
-    this.setState({tax: 0});
+    this.setState({ tax: 0 });
 
     let reader = new FileReader();
     let file = e.target.files[0];
@@ -748,25 +752,28 @@ class Bill extends React.Component {
 
       fetch(`${this.serverUrl}/api/image`, {
         headers: {
-          'Accept': 'application/text'
+          Accept: 'application/text'
         },
         method: 'POST',
         body: this.state.file
-      }).then(result => result.json())
-      .then(data => {
-        this.setState({items: data.items,
-                       inputType: null,
-                       tax: data.tax || 0,
-                       imagePreviewUrl: null
-                      });
-
-        this.setState({total: this.calculateTotal(),
-                       subtotal: this.calculateSubtotal()
-                      });
       })
-      .catch(err => console.log(err));
-    }
-    reader.readAsDataURL(file)
+        .then(result => result.json())
+        .then(data => {
+          this.setState({
+            items: data.items,
+            inputType: null,
+            tax: data.tax || 0,
+            imagePreviewUrl: null
+          });
+
+          this.setState({
+            total: this.calculateTotal(),
+            subtotal: this.calculateSubtotal()
+          });
+        })
+        .catch(err => console.log(err));
+    };
+    reader.readAsDataURL(file);
   }
 
   /**
@@ -778,66 +785,67 @@ class Bill extends React.Component {
   render() {
     return (
       <div className="Bill">
-        {this.state.error &&
-          <p>{this.state.error.message}</p>
-        }
+        {this.state.error && <p>{this.state.error.message}</p>}
         {!this.state.error &&
           <div>
-            {
-              /**
+            {/**
                * @todo Make into a component
-               */
-            }
-            {(this.state.interactionType === Symbol.for('new')) &&
+               */}
+            {this.state.interactionType === Symbol.for('new') &&
               <p className="Bill-intro lead">
                 Create a new Bill!
-              </p>
-            }
-            {(this.state.interactionType === Symbol.for('edit')) &&
+              </p>}
+            {this.state.interactionType === Symbol.for('edit') &&
               <p className="Bill-intro lead">
                 Edit the bill!
-              </p>
-            }
-            {(this.state.interactionType === Symbol.for('claim')) &&
+              </p>}
+            {this.state.interactionType === Symbol.for('claim') &&
               <p className="Bill-intro lead">
                 Claim your items!
-              </p>
-            }
+              </p>}
 
-            {(this.state.interactionType === Symbol.for('new')) &&
+            {this.state.interactionType === Symbol.for('new') &&
               <div className="text-center">
-                  <span className="btn btn-primary btn-lg btn-file" id="take-photo-btn">
-                    Take Photo <span className="glyphicon glyphicon-camera" />
-                    <input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
-                  </span>
-              </div>
-            }
+                <span className="btn btn-primary btn-lg btn-file" id="take-photo-btn">
+                  Take Photo <span className="glyphicon glyphicon-camera" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="camera"
+                    name="userPhoto"
+                    onChange={this._handleImageChange}
+                  />
+                </span>
+              </div>}
 
-
-            {(this.state.inputType === 'manual') &&
+            {this.state.inputType === 'manual' &&
               <p className="Enter-items-below text-center">
                 Enter your items in the form below.
-              </p>
-            }
+              </p>}
 
-
-            {(this.state.inputType === 'photo') &&
+            {this.state.inputType === 'photo' &&
               <div className="uploadBill">
                 <div>
-                  {
-                    this.state.imagePreviewUrl
+                  {this.state.imagePreviewUrl
                     ? null
                     : <span className="btn btn-primary btn-file">
-                        Take Photo<input type="file" accept="image/*" capture="camera" name="userPhoto" onChange={this._handleImageChange} />
-                      </span>
-                  }
+                        Take Photo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          capture="camera"
+                          name="userPhoto"
+                          onChange={this._handleImageChange}
+                        />
+                      </span>}
                 </div>
-              </div>
-            }
+              </div>}
             <Form
               inline
               id="createBillForm"
-              ref={(c) => { this.createBillForm = c; }}
+              ref={c => {
+                this.createBillForm = c;
+              }}
             >
               <Well bsSize="lg">
                 <DescriptionField
@@ -856,12 +864,10 @@ class Bill extends React.Component {
                 />
               </Well>
 
-
-              {(this.state.interactionType === Symbol.for('new')) ||
-                (this.state.interactionType === Symbol.for('edit'))
+              {this.state.interactionType === Symbol.for('new') ||
+                this.state.interactionType === Symbol.for('edit')
                 ? <p className="totals-text">The subtotal is: ${round(this.state.subtotal, 2)}</p>
-                : null
-              }
+                : null}
 
               <TaxField
                 changeTaxValue={this.changeTaxValue}
@@ -874,20 +880,16 @@ class Bill extends React.Component {
                 interactionType={this.state.interactionType}
                 tipValue={round(this.state.tip.value, 2)}
               />
-              {
-                /**
+              {/**
                  * @todo Make into a component
-                 */
-              }
+                 */}
 
-
-              {(this.state.interactionType === Symbol.for('new')) ||
-                (this.state.interactionType === Symbol.for('edit'))
+              {this.state.interactionType === Symbol.for('new') ||
+                this.state.interactionType === Symbol.for('edit')
                 ? <p className="totals-text">The total is: ${round(this.state.total, 2)}</p>
-                : null
-              }
+                : null}
 
-              {(this.state.interactionType === Symbol.for('new')) &&
+              {this.state.interactionType === Symbol.for('new') &&
                 <div className="text-center">
                   <Button
                     className="btn-primary"
@@ -896,62 +898,67 @@ class Bill extends React.Component {
                     type="submit"
                     value="Create New Bill"
                     onClick={this.createBill}
-                  >Create New Bill
+                  >
+                    Create New Bill
                   </Button>
-                </div>
-              }
+                </div>}
 
-              {(this.state.shortId) &&
+              {this.state.shortId &&
                 <div>
                   <FormGroup>
                     <InputGroup>
                       <InputGroup.Addon>Link:</InputGroup.Addon>
-                      <InputGroup.Addon>{`http://${window.location.hostname}/bill/${this.state.shortId}`}</InputGroup.Addon>
+                      <InputGroup.Addon>
+                        {`http://${window.location.hostname}/bill/${this.state.shortId}`}
+                      </InputGroup.Addon>
                       <InputGroup.Button>
                         <ClipboardButton
                           className="btn btn-primary shortLink"
-                          data-clipboard-text={`http://${window.location.hostname}/bill/${this.state.shortId}`}
+                          data-clipboard-text={
+                            `http://${window.location.hostname}/bill/${this.state.shortId}`
+                          }
                         >
-                          <span className="glyphicon glyphicon-copy"></span>
+                          <span className="glyphicon glyphicon-copy" />
                         </ClipboardButton>
                       </InputGroup.Button>
                     </InputGroup>
                   </FormGroup>
-                </div>
-              }
+                </div>}
 
-              {(this.state.interactionType === Symbol.for('edit')) &&
+              {this.state.interactionType === Symbol.for('edit') &&
                 <Button
                   id="create-new-bill-btn"
                   bsSize="lg"
                   type="submit"
                   value="Save Changes"
                   onClick={this.updateBill}
-                >Save Changes
-                </Button>
-              }
-              {(this.state.interactionType === Symbol.for('claim')) &&
+                >
+                  Save Changes
+                </Button>}
+              {this.state.interactionType === Symbol.for('claim') &&
                 <div>
                   <br />
                   <a
                     className="btn btn-primary"
-                    href={`https://cash.me/${this.state.payer.squareId}/${round(this.state.curDebtorDebt, 2)}`}
+                    href={
+                      `https://cash.me/${this.state.payer.squareId}/${round(this.state.curDebtorDebt, 2)}`
+                    }
                     onClick={this.payForClaimedItems}
                   >
                     Pay via Square Cash
                   </a>
                   <a
                     className="btn btn-primary"
-                    href={`https://paypal.me/${this.state.payer.paypalId}/${round(this.state.curDebtorDebt, 2)}`}
+                    href={
+                      `https://paypal.me/${this.state.payer.paypalId}/${round(this.state.curDebtorDebt, 2)}`
+                    }
                     onClick={this.payForClaimedItems}
                   >
                     Pay via Paypal
                   </a>
-                </div>
-              }
+                </div>}
             </Form>
-          </div>
-        }
+          </div>}
       </div>
     );
   }
@@ -959,13 +966,11 @@ class Bill extends React.Component {
 
 Bill.propTypes = {
   router: React.PropTypes.shape({
-    push: React.PropTypes.func.isRequired,
+    push: React.PropTypes.func.isRequired
   }),
   params: React.PropTypes.shape({
-    id: React.PropTypes.string,
-  }),
+    id: React.PropTypes.string
+  })
 };
 
 export default withRouter(Bill);
-
-

@@ -60,3 +60,5 @@ yarn.lock
 
 # Documentation (run 'npm run doc' to build)
 docs/
+
+config.json
